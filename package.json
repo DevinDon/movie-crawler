@@ -1,6 +1,6 @@
 {
   "name": "@devindon/movie-crawler",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Movie crawler for y80s.com",
   "main": "dist/index.js",
   "directories": {
