@@ -26,9 +26,9 @@
     "typescript",
     "project"
   ],
-  "author": "IInfinity <I.INF@Outlook.com> (https://don.red/)",
+  "author": "IInfinity <I.INF@Outlook.com> (https://blog.don.red/)",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "dependencies": {
     "jsdom": "^16.2.2",
     "superagent": "^5.2.2"
@@ -49,10 +49,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DevinDon/ts-template.git"
+    "url": "git+https://github.com/DevinDon/movie-crawler.git"
   },
   "bugs": {
-    "url": "https://github.com/DevinDon/ts-template/issues"
+    "url": "https://github.com/DevinDon/movie-crawler/issues"
   },
-  "homepage": "https://github.com/DevinDon/ts-template"
+  "homepage": "https://github.com/DevinDon/movie-crawler"
 }
