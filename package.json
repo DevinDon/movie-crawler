@@ -29,10 +29,15 @@
   "author": "IInfinity <I.INF@Outlook.com> (https://don.red/)",
   "license": "MIT",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "jsdom": "^16.2.2",
+    "superagent": "^5.2.2"
+  },
   "devDependencies": {
     "@types/jasmine": "3.5.10",
+    "@types/jsdom": "^16.2.1",
     "@types/node": "13.13.2",
+    "@types/superagent": "^4.1.7",
     "cross-env": "7.0.2",
     "jasmine": "3.5.0",
     "jasmine-console-reporter": "3.1.0",
