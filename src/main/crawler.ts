@@ -36,6 +36,12 @@ export class Crawler {
 
   constructor() { }
 
+  /**
+   * Search by keyword, return an array.
+   *
+   * @param {string} keyword Search keyword.
+   * @returns {SearchResult[]} Promise of search result array.
+   */
   async search(keyword: string): Promise<SearchResult[]> {
 
     const response = await post(this.base + '/movie/search/')
@@ -54,6 +60,12 @@ export class Crawler {
 
   }
 
+  /**
+   * Get movie detail with detail page url.
+   *
+   * @param {string} url Url of movie detail page.
+   * @returns {Detail} Promise of detail.
+   */
   async getDetail(url: string): Promise<Detail> {
 
     const response = await get(url)
