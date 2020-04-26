@@ -47,6 +47,12 @@ interface Detail {
 }
 ```
 
+# Change Log
+
+## 0.1.0 => 0.1.1
+
+- feat(browser): add browser support
+
 # [THE MIT LICENSE](https://raw.githubusercontent.com/DevinDon/license/master/THE%20MIT%20LICENSE)
 
 Copyright © 2018+ Devin Don
