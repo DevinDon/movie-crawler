@@ -61,13 +61,13 @@ export interface Download {
 /**
  * 豆瓣链接 Douban
  *
- * 从当前页面解析到的源链接
+ * 直接解析豆瓣 ID
  *
  * ```javascript
  * document
  *   .querySelector('#minfo > div.info > div:nth-child(11) > span:nth-child(2) > a')
  *   .getAttribute('href')
- *   .match(/(.*)\/comments/)[1]
+ *   .match(/subject\/(.*)\/comments/)[1]
  * ```
  */
 export interface Douban {
@@ -75,8 +75,7 @@ export interface Douban {
    * 豆瓣电影编号 Douban ID
    *
    * ```javascript
-   * +link
-   *   .match(/subject\/(.*)/)[1]
+   * +id
    * ```
    */
   id: number;
@@ -84,7 +83,7 @@ export interface Douban {
    * 评论链接
    *
    * ```javascript
-   * link + '/comments'
+   * `https://movie.douban.com/subject/${id}/comments`
    * ```
    */
   commentLink: string;
@@ -92,7 +91,7 @@ export interface Douban {
    * 豆瓣电影链接 Movie Link
    *
    * ```javascript
-   * link
+   * `https://movie.douban.com/subject/${id}`
    * ```
    */
   MovieLink: string;
