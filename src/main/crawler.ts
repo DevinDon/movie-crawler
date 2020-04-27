@@ -1,6 +1,6 @@
 import { JSDOM } from 'jsdom';
 import { get, post } from 'superagent';
-import { Detail, Download, SearchResult } from './model';
+import { Detail, SearchResult } from './model';
 
 export class Crawler {
 
@@ -27,18 +27,36 @@ export class Crawler {
    */
   async search(keyword: string): Promise<SearchResult[]> {
 
-    const response = await post(this.base + '/movie/search/')
+    const response = await post(this.base + '/search')
       .set(this.header)
-      .field('search_typeid', 1)
-      .field('skey', keyword)
-      .field('Input', '搜索');
+      .field('keyword', keyword);
 
     const document = new JSDOM(response.text).window.document;
-    const list = [...document.querySelectorAll('#block1 > ul > li > a')];
+    const list = [...
+      document
+        .querySelector('#block3 > ul')!
+        .querySelectorAll('li')
+    ].map(v => v.childNodes);
 
-    return list.map<SearchResult>(ele => ({
-      title: ele.getAttribute('title')!,
-      url: this.base + ele.getAttribute('href')!
+    return list.map<SearchResult>(nodes => ({
+      title: nodes[1]
+        .textContent!
+        .match(/\]([\s\S]+)\(/)![1]
+        .trim(),
+      type: nodes[1]
+        .textContent!
+        .match(/\[(.*)\]/)![1],
+      year: +nodes[1]
+        .textContent!
+        .match(/\((.*)\)/)![1],
+      aliases: nodes[6]
+        .textContent!
+        .trim()
+        .split(' / '),
+      description: nodes[9].textContent!,
+      rating: nodes[3].textContent
+        ? +nodes[3].textContent.match(/豆瓣(.*)分/)![1]
+        : undefined
     }));
 
   }
