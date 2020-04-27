@@ -49,9 +49,11 @@ interface Detail {
 
 # Change Log
 
-## 0.1.0 => 0.1.1
+## 0.1.2 => 0.2.0
 
-- feat(browser): add browser support
+- feat(source): 更新源为 <https://www.80s.tw>
+- perf(model): 优化数据结构并更新注释
+- test(unit): 完善单元测试
 
 # [THE MIT LICENSE](https://raw.githubusercontent.com/DevinDon/license/master/THE%20MIT%20LICENSE)
 
