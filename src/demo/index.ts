@@ -1,16 +1,22 @@
-import { Crawler } from '../main';
-
+import { DoubanCrawler } from '../main/crawler/douban.crawler';
 async function main() {
 
-  const crawler = new Crawler();
+  // const key = '396d9efd64fac0e111c2d634638868c4';
+  // const iv = '.pianku.tv';
 
-  const result = await crawler.search('魔发奇缘');
-  const detail = await crawler.getDetail('https://www.80s.tw/movie/6587');
-  const detail2 = await crawler.getDetail('https://www.80s.tw/movie/24978');
-  const detail3 = await crawler.getDetail('https://www.80s.tw/movie/7417');
+  // const document = new JSDOM(readFileSync('search.html')).window.document;
+  // /** 在线播放页面 */
+  // const list = [...
+  //   document.querySelectorAll('.player.ckp > li > a')
+  // ].map(v => 'https://www.pianku.tv/' + v.getAttribute('href'));
 
-  // console.table(result);
-  console.table(detail);
+  // // document.scripts[14].textContent.match(/url: '(.*)'/)[1]
+
+  const c = new DoubanCrawler();
+
+  const movie = await c.movie('25887288');
+
+  console.log(movie);
 
 }
 

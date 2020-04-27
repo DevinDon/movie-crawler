@@ -4,11 +4,11 @@ import { Movie, Result, Artist } from "../model";
  * 爬虫抽象类，需要实现如下方法：
  *
  * ```typescript
- * (method) BaseCrawler.artist(url: string): Promise<Artist>
+ * (method) BaseCrawler.artist(uri: string): Promise<Artist>
  * ```
  *
  * ```typescript
- * (method) BaseCrawler.movie(url: string): Promise<Movie>
+ * (method) BaseCrawler.movie(uri: string): Promise<Movie>
  * ```
  *
  * ```typescript
@@ -27,20 +27,20 @@ export abstract class BaseCrawler {
    *
    * Get movie detail with detail page url.
    *
-   * @param {string} url Url of artist detail page.
+   * @param {string} uri Url of artist detail page.
    * @returns {Promise<Artist>} Promise of detail.
    */
-  async abstract artist(url: string): Promise<Artist>;
+  async abstract artist(uri: string): Promise<Artist>;
 
   /**
    * 通过详情 URL 页面解析电影信息。
    *
    * Get movie detail with detail page url.
    *
-   * @param {string} url Url of movie detail page.
+   * @param {string} uri Url of movie detail page.
    * @returns {Promise<Movie>} Promise of detail.
    */
-  async abstract movie(url: string): Promise<Movie>;
+  async abstract movie(uri: string): Promise<Movie>;
 
   /**
    * 通过关键字搜索，返回一个搜索结果数组。

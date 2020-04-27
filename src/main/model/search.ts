@@ -9,6 +9,6 @@ export interface Result {
 // 详情页面
 // GET https://www.pianku.tv/mv/wNnZjYidja.html
 // 下载地址请求
-// GET https://www.pianku.tv/ajax/downurl/wNnZjYidja_mv/
+// GET https://www.pianku.tv/ajax/downurl/{{id}}/
 // 搜索请求
 // GET https://www.pianku.tv/s/ajax.php?q={{keyword}}
