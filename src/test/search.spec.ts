@@ -5,26 +5,7 @@ describe('Test Search Method', () => {
   let crawler: Crawler;
   let result1: SearchResult[];
   const keyword1 = '魔发奇缘';
-  const defined1 = [
-    {
-      "title": "魔发奇缘",
-      "type": "电影",
-      "year": 2010,
-      "aliases": ["魔发奇缘", "长发姑娘", "莴苣公主", "缠结", "Rapunzel", "长发公主", "Tangled"],
-      "description": "迪斯尼公司第50部动画长片",
-      "rating": 8.1,
-      "url": "https://www.80s.tw/movie/6587"
-    },
-    {
-      "title": "魔发奇缘：幸福前奏",
-      "type": "电影",
-      "year": 2017,
-      "aliases": ["Tangled: Before Ever After"],
-      "description": "讲述乐佩回国之后的冒险故事",
-      "rating": 6,
-      "url": "https://www.80s.tw/movie/20147"
-    }
-  ];
+  const defined1 = [{ "title": "魔发奇缘", "type": "电影", "year": 2010, "aliases": ["魔发奇缘", "长发姑娘", "莴苣公主", "缠结", "Rapunzel", "长发公主", "Tangled"], "description": "迪斯尼公司第50部动画长片", "rating": 8.1, "url": "https://www.80s.tw/movie/6587" }, { "title": "魔发奇缘：幸福前奏", "type": "电影", "year": 2017, "aliases": ["Tangled: Before Ever After"], "description": "讲述乐佩回国之后的冒险故事", "rating": 6, "url": "https://www.80s.tw/movie/20147" }];
 
   let result2: SearchResult[];
   const keyword2 = 'abc';
