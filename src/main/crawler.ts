@@ -38,27 +38,30 @@ export class Crawler {
         .querySelectorAll('li')
     ].map(v => v.childNodes);
 
-    return list.map<SearchResult>(nodes => ({
-      title: nodes[1]
-        .textContent!
-        .match(/\]([\s\S]+)\(/)![1]
-        .trim(),
-      type: nodes[1]
-        .textContent!
-        .match(/\[(.*)\]/)![1],
-      year: +nodes[1]
-        .textContent!
-        .match(/\((.*)\)/)![1],
-      aliases: nodes[6]
-        .textContent!
-        .trim()
-        .split(' / '),
-      description: nodes[9].textContent!,
-      rating: nodes[3].textContent
-        ? +nodes[3].textContent.match(/豆瓣(.*)分/)![1]
-        : undefined,
-      url: this.base + (nodes[1] as any).getAttribute('href')
-    }));
+    return list.map<SearchResult>(nodes => {
+      const hasYear = nodes[1] && nodes[1].textContent?.match(/\((.*)\)/);
+      const hasAliases = nodes[6] && nodes[6].textContent;
+      const hasDescription = nodes[9] && nodes[9].textContent;
+      const hasRating = nodes[3] && nodes[3].textContent;
+      return {
+        title: nodes[1]
+          .textContent!
+          .match(/\]([\s\S]+)\(?/)![1]
+          .trim(),
+        type: nodes[1]
+          .textContent!
+          .match(/\[(.*)\]/)![1],
+        year: hasYear ? +hasYear[1] : undefined,
+        aliases: hasAliases
+          ? hasAliases.trim().split(' / ')
+          : undefined,
+        description: hasDescription || undefined,
+        rating: hasRating
+          ? +hasRating.match(/豆瓣(.*)分/)![1]
+          : undefined,
+        url: this.base + (nodes[1] as any).getAttribute('href')
+      };
+    });
 
   }
 

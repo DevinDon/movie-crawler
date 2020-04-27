@@ -41,13 +41,15 @@ export interface SearchResult {
   /**
   * 年份 Year
   *
+  * **可能不存在，注意判断空值**
+  *
   * ```javascript
   * +nodes[1]
   *   .textContent
   *   .match(/\((.*)\)/)[1]
   * ```
   */
-  year: number;
+  year?: number;
   /**
    * 别名 Alias
    *
@@ -58,7 +60,7 @@ export interface SearchResult {
    *   .split(' / ')
    * ```
    */
-  aliases: string[];
+  aliases?: string[];
   /**
    * 简介 Description
    *
@@ -66,7 +68,7 @@ export interface SearchResult {
    * nodes[9].textContent
    * ```
    */
-  description: string;
+  description?: string;
   /**
    * 豆瓣评分 rating
    *
