@@ -180,7 +180,7 @@ export interface Download {
 export interface Movie {
 
   /**
-   * 编号 ID
+   * 豆瓣电影编号 ID
    *
    * 从地址获取，正则匹配如下：
    *
@@ -370,5 +370,10 @@ export interface Movie {
    * 见上
    */
   downloads: Download[];
+
+  /**
+   * 其他网站的对应 Links
+   */
+  links: string[];
 
 }
