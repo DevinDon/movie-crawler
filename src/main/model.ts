@@ -150,10 +150,10 @@ export interface Download {
  * 直接解析豆瓣 ID
  *
  * ```javascript
- * document
- *   .querySelector('#minfo > div.info > div:nth-child(11) > span:nth-child(2) > a')
+ * infoBlock2
+ *   .querySelector('a')
  *   .getAttribute('href')
- *   .match(/subject\/(.*)\/comments/)[1]
+ *   .match('subject\/(.+)\/comments')[1]
  * ```
  */
 export interface Douban {
@@ -229,6 +229,7 @@ export interface Detail {
    */
   source: string;
 
+  // 信息块 零
   /**
    * 标题 Title
    *
@@ -294,6 +295,7 @@ export interface Detail {
    */
   artists: string[];
 
+  // 信息块 一
   /**
    * 类型 Type
    *
@@ -394,12 +396,13 @@ export interface Detail {
    */
   duration: number;
 
+  // 信息块 二
   /**
    * 电影评分 Rating
    *
    * ```javascript
-   * +document
-   *   .querySelector('#minfo > div.info > div:nth-child(11) > span:nth-child(1)')
+   * +infoBlock2
+   *   .querySelector('span')
    *   .childNodes[4]
    *   .textContent
    *   .trim()
@@ -408,11 +411,18 @@ export interface Detail {
   rating: number;
 
   /**
+   * 豆瓣信息 Douban
+   *
+   * 见上
+   */
+  douban: Douban;
+
+  // 信息块 三
+  /**
    * 电影描述 Description
    *
    * ```javascript
-   * document
-   *   .querySelector('#movie_content')
+   * infoBlock3
    *   .childNodes[2]
    *   .textContent
    *   .trim()
@@ -420,13 +430,7 @@ export interface Detail {
    */
   description: string;
 
-  /**
-   * 豆瓣信息 Douban
-   *
-   * 见上
-   */
-  douban: Douban;
-
+  // 下载块
   /**
    * 下载链接 Download
    *
