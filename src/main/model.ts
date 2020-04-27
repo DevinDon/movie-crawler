@@ -239,6 +239,17 @@ export interface Detail {
    */
   source: string;
 
+  /**
+   * 封面 Image
+   *
+   * ```javascript
+   * document
+   *   .querySelector('.img > img')
+   *   .getAttribute('src')
+   * ```
+   */
+  image: string;
+
   // 信息块 零
   /**
    * 标题 Title

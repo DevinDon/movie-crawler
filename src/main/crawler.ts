@@ -98,6 +98,9 @@ export class Crawler {
 
     const detail: Detail = {
       source: url,
+      image: document
+        .querySelector('.img > img')!
+        .getAttribute('src')!,
       title: infoBlock
         .querySelector('h1')!
         .textContent!,
