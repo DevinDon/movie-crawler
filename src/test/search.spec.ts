@@ -39,13 +39,12 @@ describe('Test Search Method', () => {
     done();
   });
 
-  it(`should get 2 result`, async done => {
+  it(`should get 2 & 1 result`, async done => {
     result1 = await crawler.search(keyword1);
     result2 = await crawler.search(keyword2);
     results.push(result1, result2);
-    for (const result of results) {
-      expect(result.length).toEqual(2);
-    }
+    expect(result1.length).toEqual(2);
+    expect(result2.length).toEqual(1);
     done();
   });
 
