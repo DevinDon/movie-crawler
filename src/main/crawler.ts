@@ -56,7 +56,8 @@ export class Crawler {
       description: nodes[9].textContent!,
       rating: nodes[3].textContent
         ? +nodes[3].textContent.match(/豆瓣(.*)分/)![1]
-        : undefined
+        : undefined,
+      url: (nodes[1] as any).getAttribute('href')
     }));
 
   }

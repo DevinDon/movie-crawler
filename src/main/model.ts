@@ -79,6 +79,14 @@ export interface SearchResult {
    * ```
    */
   rating: number | undefined;
+  /**
+   * 详情页链接 URL
+   *
+   * ```javascript
+   * nodes[1].getAttribute('href')
+   * ```
+   */
+  url: string;
 }
 
 /**
