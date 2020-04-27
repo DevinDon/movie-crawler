@@ -118,7 +118,7 @@ export interface Detail {
    * 年份 Year
    *
    * ```javascript
-   * document
+   * +document
    *   .querySelector('#minfo > div.info')
    *   .childNodes[4]
    *   .textContent
