@@ -176,7 +176,7 @@ export interface Detail {
    * ].map(v => v.textContent)
    * ```
    */
-  areas: string;
+  areas: string[];
   /**
    * 语言 Language
    *
