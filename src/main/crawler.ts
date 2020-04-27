@@ -40,20 +40,25 @@ export class Crawler {
 
     return list.map<SearchResult>(nodes => {
       const hasYear = nodes[1] && nodes[1].textContent?.match(/\((.*)\)/);
-      const hasAliases = nodes[6] && nodes[6].textContent;
-      const hasDescription = nodes[9] && nodes[9].textContent;
-      const hasRating = nodes[3] && nodes[3].textContent;
+      const hasAliases = nodes[6] && nodes[6].textContent?.trim();
+      const hasDescription = nodes[9] && nodes[9].textContent?.trim();
+      const hasRating = nodes[3] && nodes[3].textContent?.trim();
       return {
-        title: nodes[1]
-          .textContent!
-          .match(/\]([\s\S]+)[\(]+?/)![1]
-          .trim(),
+        title: hasYear
+          ? nodes[1]
+            .textContent!
+            .match(/\]([\s\S]+)\(/)![1]
+            .trim()
+          : nodes[1]
+            .textContent!
+            .match(/\]([\s\S]+)/)![1]
+            .trim(),
         type: nodes[1]
           .textContent!
           .match(/\[(.*)\]/)![1],
         year: hasYear ? +hasYear[1] : undefined,
         aliases: hasAliases
-          ? hasAliases.trim().split(' / ')
+          ? hasAliases.split(' / ')
           : undefined,
         description: hasDescription || undefined,
         rating: hasRating
