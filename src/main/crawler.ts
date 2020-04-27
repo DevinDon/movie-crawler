@@ -46,7 +46,7 @@ export class Crawler {
       return {
         title: nodes[1]
           .textContent!
-          .match(/\]([\s\S]+)\(?/)![1]
+          .match(/\]([\s\S]+)[\(]+?/)![1]
           .trim(),
         type: nodes[1]
           .textContent!
