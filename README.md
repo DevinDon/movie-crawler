@@ -49,6 +49,10 @@ interface Detail {
 
 # Change Log
 
+## 0.2.1 => 0.2.2
+
+- fix(crawler): 修复了关于搜索列表的标题解析
+
 ## 0.2.0 => 0.2.1
 
 - fix(crawler): 添加空值判断与错误控制
