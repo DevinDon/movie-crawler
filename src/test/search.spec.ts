@@ -27,9 +27,14 @@ describe('Test Search Method', () => {
   ];
 
   beforeAll(async done => {
-    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 30 * 1000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30 * 1000;
     crawler = new Crawler();
+    done();
+  });
+
+  it(`should get search result`, async done => {
     result = await crawler.search(keyword);
+    expect(result).toBeDefined();
     done();
   });
 
@@ -77,6 +82,11 @@ describe('Test Search Method', () => {
     for (let i = 0; i < result.length; i++) {
       expect(result[i].year).toEqual(defined[i].year);
     }
+    done();
+  });
+
+  afterAll(done => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 5 * 1000;
     done();
   });
 
