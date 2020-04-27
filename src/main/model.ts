@@ -234,19 +234,32 @@ export interface Detail {
    * 标题 Title
    *
    * ```javascript
-   * document
-   *   .querySelector('#minfo > div.info > h1')
+   * infoBlock
+   *   .querySelector('h1')
    *   .textContent
    * ```
    */
   title: string;
 
   /**
+   * 年份 Year
+   *
+   * ```javascript
+   * +infoBlock
+   *   .childNodes[4]
+   *   .textContent
+   *   .trim()
+   *   .match(/\((.+)\)/)[1]
+   * ```
+   */
+  year: number;
+
+  /**
    * 简介 Introduction
    *
    * ```javascript
-   * document
-   *   .querySelector('#minfo > div.info > span:nth-child(4)')
+   * infoBlock
+   *   .childNodes[7]
    *   .textContent
    *   .trim()
    * ```
@@ -254,30 +267,20 @@ export interface Detail {
   introduction: string;
 
   /**
-   * 年份 Year
-   *
-   * ```javascript
-   * +document
-   *   .querySelector('#minfo > div.info')
-   *   .childNodes[4]
-   *   .textContent
-   *   .trim()
-   *   .match(/\((.*)\)/)[1]
-   * ```
-   */
-  year: number;
-
-  /**
    * 别名 Alias
    *
+   * **需要特殊处理，判断 `span:nth-child(6) > span` 的文本内容，如果为 `又名` 则是该元素，否则继续递增两个单位判断。**
+   *
+   * **或者，直接判断 `span:nth-child(10)` 是否存在**
+   *
    * ```javascript
-   * document
-   *   .querySelector('#minfo > div.info > span:nth-child(6)')
+   * infoBlock
+   *   .querySelector(`span:nth-child(${infoBlock.querySelector('span:nth-child(10)') ? 8 : 6})`)
    *   .childNodes[2]
    *   .textContent
    *   .trim()
-   *   .replace(/ \/ /g, ' , ')
-   *   .split(' , ')
+   *   .replace(/ , /g, ' / ')
+   *   .split(' / ')
    * ```
    */
   aliases: string[];
@@ -287,9 +290,8 @@ export interface Detail {
    *
    * ```javascript
    * [...
-   *   document
-   *     .querySelector('#minfo > div.info > span:nth-child(8)')
-   *     .querySelectorAll('a')
+   *   infoBlock
+   *     .querySelectorAll(`span:nth-child(${infoBlock.querySelector('span:nth-child(10)') ? 10 : 8}) > a`)
    * ].map(v => v.textContent)
    * ```
    */
