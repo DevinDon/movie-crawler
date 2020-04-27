@@ -50,7 +50,7 @@ describe('Test Search Method', () => {
   });
 
   for (const key in defined1[0]) {
-    if (defined1.hasOwnProperty(key)) {
+    if (defined1[0].hasOwnProperty(key)) {
       it(`should get right value of key ${key}`, done => {
         for (let i = 0; i < results.length; i++) {
           const result = results[i];
