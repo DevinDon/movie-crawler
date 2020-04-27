@@ -28,7 +28,7 @@ describe('Test Search Method', () => {
 
   let result2: SearchResult[];
   const keyword2 = 'abc';
-  const defined2 = [{ "title": "26种死法2.5：M号档案", "type": "电影", "year": 2016, "aliases": ["ABC's of Death 3: Teach Harder", "26种死法3", "ABCs of Death 2.5"], "rating": 5, "url": "https://www.80s.tw/movie/21432" }, { "title": "澳大利亚ABC台：迷失的MH370", "type": "公开课", "url": "https://www.80s.tw/movie/12886" }];
+  const defined2 = [{ "title": "26种死法2.5：M号档案", "type": "电影", "year": 2016, "aliases": ["ABC's of Death 3: Teach Harder", "26种死法3", "ABCs of Death 2.5"], "rating": 5, "url": "https://www.80s.tw/movie/21432" }];
 
   const results: SearchResult[][] = [];
   const defineds: SearchResult[][] = [defined1, defined2];

@@ -66,7 +66,7 @@ export class Crawler {
           : undefined,
         url: this.base + (nodes[1] as any).getAttribute('href')
       };
-    });
+    }).filter(v => v.type === '电影');
 
   }
 
