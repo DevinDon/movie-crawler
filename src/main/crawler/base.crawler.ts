@@ -13,7 +13,7 @@ export abstract class BaseCrawler {
 
   constructor(
     public readonly host: string,
-    public header: string
+    public header: any
   ) { }
 
   /**
