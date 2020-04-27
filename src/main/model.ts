@@ -42,7 +42,7 @@ export interface SearchResult {
   * 年份 Year
   *
   * ```javascript
-  * nodes[1]
+  * +nodes[1]
   *   .textContent
   *   .match(/\((.*)\)/)[1]
   * ```
