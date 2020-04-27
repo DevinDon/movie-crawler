@@ -240,7 +240,8 @@ export interface Detail {
    * +document
    *   .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(6)')
    *   .childNodes[1]
-   *   .textContent.trim()
+   *   .textContent
+   *   .trim()
    *   .match(/(.*)分钟/)[1]
    * ```
    */
