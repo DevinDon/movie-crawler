@@ -49,6 +49,10 @@ interface Detail {
 
 # Change Log
 
+## 0.2.0 => 0.2.1
+
+- fix(crawler): 添加空值判断与错误控制
+
 ## 0.1.2 => 0.2.0
 
 - feat(source): 更新源为 <https://www.80s.tw>
