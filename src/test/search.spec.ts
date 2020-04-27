@@ -49,71 +49,20 @@ describe('Test Search Method', () => {
     done();
   });
 
-  it(`should get right aliases`, done => {
-    for (let i = 0; i < results.length; i++) {
-      const result = results[i];
-      const defined = defineds[i];
-      for (let j = 0; j < result.length; j++) {
-        expect(result[j].aliases).toEqual(defined[j].aliases);
-      }
+  for (const key in defined1) {
+    if (defined1.hasOwnProperty(key)) {
+      it(`should get right value of key ${key}`, done => {
+        for (let i = 0; i < results.length; i++) {
+          const result = results[i];
+          const defined = defineds[i];
+          for (let j = 0; j < result.length; j++) {
+            expect(result[j][key]).toEqual(defined[j][key]);
+          }
+        }
+        done();
+      });
     }
-    done();
-  });
-
-  it(`should get right rating`, done => {
-    for (let i = 0; i < results.length; i++) {
-      const result = results[i];
-      const defined = defineds[i];
-      for (let i = 0; i < result.length; i++) {
-        expect(result[i].rating).toEqual(defined[i].rating);
-      }
-    }
-    done();
-  });
-
-  it(`should get right title`, done => {
-    for (let i = 0; i < results.length; i++) {
-      const result = results[i];
-      const defined = defineds[i];
-      for (let i = 0; i < result.length; i++) {
-        expect(result[i].title).toEqual(defined[i].title);
-      }
-    }
-    done();
-  });
-
-  it(`should get right type`, done => {
-    for (let i = 0; i < results.length; i++) {
-      const result = results[i];
-      const defined = defineds[i];
-      for (let i = 0; i < result.length; i++) {
-        expect(result[i].type).toEqual(defined[i].type);
-      }
-    }
-    done();
-  });
-
-  it(`should get right url`, done => {
-    for (let i = 0; i < results.length; i++) {
-      const result = results[i];
-      const defined = defineds[i];
-      for (let i = 0; i < result.length; i++) {
-        expect(result[i].url).toEqual(defined[i].url);
-      }
-    }
-    done();
-  });
-
-  it(`should get right year`, done => {
-    for (let i = 0; i < results.length; i++) {
-      const result = results[i];
-      const defined = defineds[i];
-      for (let i = 0; i < result.length; i++) {
-        expect(result[i].year).toEqual(defined[i].year);
-      }
-    }
-    done();
-  });
+  }
 
   afterAll(done => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 5 * 1000;
