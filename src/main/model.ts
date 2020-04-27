@@ -1,6 +1,68 @@
+/**
+ * 搜索结果。
+ *
+ * `POST https://www.80s.tw/search {"keyword":"电影名"}`
+ *
+ * ```javascript
+ * [...document.querySelector('#block3 > ul').querySelectorAll('li')].map(v => v.childNodes)
+ * ```
+ */
 export interface SearchResult {
-  title: string; // #block1 > ul > li > a [title]
-  url: string; // #block1 > ul > li > a [href]
+  /**
+   * 标题 Title
+   *
+   * ```javascript
+   * [1].textContent.match(/\]([\s\S]+)\(/)[1].trim()
+   * ```
+   *
+   * 这么多空格是要闹什么🤨。
+   */
+  title: string;
+  /**
+   * 结果类别 Type
+   *
+   * - 电影 Movie
+   * - 音乐短片 MV
+   *
+   * ```javascript
+   * nodes[1].textContent.match(/\[(.*)\]/)[1]
+   * ```
+   */
+  type: string;
+  /**
+  * 年份 Year
+  *
+  * ```javascript
+  * nodes[1].textContent.match(/\((.*)\)/)[1]
+  * ```
+  */
+  year: number;
+  /**
+   * 别名 Alias
+   *
+   * ```javascript
+   * nodes[6].textContent.trim().split(' / ')
+   * ```
+   */
+  aliases: string[];
+  /**
+   * 简介 Description
+   *
+   * ```javascript
+   * [9].textContent
+   * ```
+   */
+  description: string;
+  /**
+   * 豆瓣评分 rating
+   *
+   * **评分可能为空，注意做控制判断**
+   *
+   * ```javascript
+   * nodes[3].textContent.match(/豆瓣(.*)分/)[1]
+   * ```
+   */
+  rating: number;
 }
 
 /**
@@ -97,6 +159,11 @@ export interface Douban {
   MovieLink: string;
 }
 
+/**
+ * 电影详细信息。
+ *
+ * `GET https://www.80s.tw/movie/电影编号`
+ */
 export interface Detail {
   /**
    * 源地址，即爬取页面地址。
