@@ -198,6 +198,14 @@ export interface Douban {
  * const infoBlock = document.querySelector('#minfo > .info');
  * ```
  *
+ * ### 信息块 零
+ *
+ * 包含：简介、别名、演员
+ *
+ * ```javascript
+ * const infoBlock0 = [...document.querySelectorAll('#minfo > .info > span')].filter(v => !v.classList.value);
+ * ```
+ *
  * ### 信息块 一
  *
  * 包含：类型、地区、语言、导演、上映时间、片长及更新时间
@@ -246,9 +254,10 @@ export interface Detail {
   /**
    * 年份 Year
    *
+   * **真xx麻烦，艹，能不能按规范开发！静态渲染你扔个空标签也行啊！**
+   *
    * ```javascript
    * +infoBlock
-   *   .childNodes[4]
    *   .textContent
    *   .trim()
    *   .match(/\((.+)\)/)[1]
@@ -260,8 +269,7 @@ export interface Detail {
    * 简介 Introduction
    *
    * ```javascript
-   * infoBlock
-   *   .childNodes[7]
+   * infoBlock0[0]
    *   .textContent
    *   .trim()
    * ```
@@ -271,13 +279,10 @@ export interface Detail {
   /**
    * 别名 Alias
    *
-   * **需要特殊处理，判断 `span:nth-child(6) > span` 的文本内容，如果为 `又名` 则是该元素，否则继续递增两个单位判断。**
-   *
-   * **或者，直接判断 `span:nth-child(10)` 是否存在**
+   * **需要特殊处理，如果 `infoBlock0.length === 4`，则这玩意为 2；否则为 1。**
    *
    * ```javascript
-   * infoBlock
-   *   .querySelector(`span:nth-child(${infoBlock.querySelector('span:nth-child(10)') ? 8 : 6})`)
+   * infoBlock0[infoBlock0.length === 4 ? 2 : 1]
    *   .childNodes[2]
    *   .textContent
    *   .trim()
@@ -290,10 +295,12 @@ export interface Detail {
   /**
    * 演员 Artist
    *
+   * **需要特殊处理，如果 `infoBlock0.length === 4`，则这玩意为 3；否则为 2。**
+   *
    * ```javascript
    * [...
-   *   infoBlock
-   *     .querySelectorAll(`span:nth-child(${infoBlock.querySelector('span:nth-child(10)') ? 10 : 8}) > a`)
+   *   infoBlock0[infoBlock0.length === 4 ? 3 : 2]
+   *     .querySelectorAll('a')
    * ].map(v => v.textContent)
    * ```
    */

@@ -86,6 +86,7 @@ export class Crawler {
     const document = new JSDOM(response.text).window.document;
 
     const infoBlock = document.querySelector('#minfo > .info')!;
+    const infoBlock0 = [...document.querySelectorAll('#minfo > .info > span')].filter(v => !v.classList.value);
     const infoBlock1 = infoBlock.querySelectorAll('.clearfix')[0];
     const infoBlock2 = infoBlock.querySelectorAll('.clearfix')[1];
     const infoBlock3 = infoBlock.querySelectorAll('.clearfix')[2];
@@ -101,24 +102,19 @@ export class Crawler {
         .querySelector('h1')!
         .textContent!,
       year: +infoBlock
-        .childNodes[4]
         .textContent!
         .trim()
         .match(/\((.+)\)/)![1],
-      introduction: infoBlock
-        .childNodes[7]
-        .textContent!
-        .trim(),
-      aliases: infoBlock
-        .querySelector(`span:nth-child(${infoBlock.querySelector('span:nth-child(10)') ? 8 : 6})`)!
+      introduction: infoBlock0[0].textContent!.trim(),
+      aliases: infoBlock0[infoBlock0.length === 4 ? 2 : 1]
         .childNodes[2]
         .textContent!
         .trim()
         .replace(/ , /g, ' / ')
         .split(' / '),
       artists: [...
-        infoBlock
-          .querySelectorAll(`span:nth-child(${infoBlock.querySelector('span:nth-child(10)') ? 10 : 8}) > a`)
+        infoBlock0[infoBlock0.length === 4 ? 3 : 2]
+          .querySelectorAll('a')
       ].map(v => v.textContent!),
       types: [...
         infoBlock1
