@@ -63,8 +63,7 @@ export interface SearchResult {
    * 简介 Description
    *
    * ```javascript
-   * nodes[9]
-   *   .textContent
+   * nodes[9].textContent
    * ```
    */
   description: string;
@@ -74,12 +73,12 @@ export interface SearchResult {
    * **评分可能为空，注意做控制判断**
    *
    * ```javascript
-   * nodes[3]
-   *   .textContent
-   *   .match(/豆瓣(.*)分/)[1]
+   * nodes[3].textContent
+   *   ? +nodes[3].textContent.match(/豆瓣(.*)分/)![1]
+   *   : undefined
    * ```
    */
-  rating: number;
+  rating: number | undefined;
 }
 
 /**
