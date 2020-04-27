@@ -180,7 +180,7 @@ export interface Douban {
    * `https://movie.douban.com/subject/${id}`
    * ```
    */
-  MovieLink: string;
+  movieLink: string;
 }
 
 /**
