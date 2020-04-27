@@ -14,119 +14,40 @@ describe('Test Detail Method', () => {
   let detail1: Detail;
   let detail2: Detail;
 
+  const details: Detail[] = [];
+  const defineds: Detail[] = [魔发奇缘, 阴曹使者];
+
   beforeAll(async done => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30 * 1000;
     crawler = new Crawler();
     done();
   });
 
   it(`should get detail`, async done => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30 * 1000;
     detail1 = await crawler.getDetail('https://www.80s.tw/movie/6587');
     detail2 = await crawler.getDetail('https://www.80s.tw/movie/24978');
-    expect(detail1).toBeDefined();
-    expect(detail2).toBeDefined();
+    details.push(detail1, detail2);
+    for (const detail of details) {
+      expect(detail).toBeDefined();
+    }
     done();
   });
 
-  it(`Detail should get right aliases`, done => {
-    expect(detail1.aliases).toEqual(魔发奇缘.aliases);
-    expect(detail2.aliases).toEqual(阴曹使者.aliases);
-    done();
-  });
+  for (const key in 魔发奇缘) {
+    if (魔发奇缘.hasOwnProperty(key)) {
+      it(`should get right value of key ${key}`, done => {
+        for (let i = 0; i < details.length; i++) {
+          const detail = details[i];
+          const defined = defineds[i];
+          expect(detail[key]).toEqual(defined[key]);
+        }
+        done();
+      });
+    }
+  }
 
-  it(`Detail should get right areas`, done => {
-    expect(detail1.areas).toEqual(魔发奇缘.areas);
-    expect(detail2.areas).toEqual(阴曹使者.areas);
-    done();
-  });
-
-  it(`Detail should get right artists`, done => {
-    expect(detail1.artists).toEqual(魔发奇缘.artists);
-    expect(detail2.artists).toEqual(阴曹使者.artists);
-    done();
-  });
-
-  it(`Detail should get right description`, done => {
-    expect(detail1.description).toEqual(魔发奇缘.description);
-    expect(detail2.description).toEqual(阴曹使者.description);
-    done();
-  });
-
-  it(`Detail should get right directors`, done => {
-    expect(detail1.directors).toEqual(魔发奇缘.directors);
-    expect(detail2.directors).toEqual(阴曹使者.directors);
-    done();
-  });
-
-  it(`Detail should get right douban`, done => {
-    expect(detail1.douban).toEqual(魔发奇缘.douban);
-    expect(detail2.douban).toEqual(阴曹使者.douban);
-    done();
-  });
-
-  it(`Detail should get right downloads`, done => {
-    expect(detail1.downloads).toEqual(魔发奇缘.downloads);
-    expect(detail2.downloads).toEqual(阴曹使者.downloads);
-    done();
-  });
-
-  it(`Detail should get right duration`, done => {
-    expect(detail1.duration).toEqual(魔发奇缘.duration);
-    expect(detail2.duration).toEqual(阴曹使者.duration);
-    done();
-  });
-
-  it(`Detail should get right introduction`, done => {
-    expect(detail1.introduction).toEqual(魔发奇缘.introduction);
-    expect(detail2.introduction).toEqual(阴曹使者.introduction);
-    done();
-  });
-
-  it(`Detail should get right languages`, done => {
-    expect(detail1.languages).toEqual(魔发奇缘.languages);
-    expect(detail2.languages).toEqual(阴曹使者.languages);
-    done();
-  });
-
-  it(`Detail should get right rating`, done => {
-    expect(detail1.rating).toEqual(魔发奇缘.rating);
-    expect(detail2.rating).toEqual(阴曹使者.rating);
-    done();
-  });
-
-  it(`Detail should get right releaseDate`, done => {
-    expect(detail1.releaseDate).toEqual(魔发奇缘.releaseDate);
-    expect(detail2.releaseDate).toEqual(阴曹使者.releaseDate);
-    done();
-  });
-
-  it(`Detail should get right source`, done => {
-    expect(detail1.source).toEqual(魔发奇缘.source);
-    expect(detail2.source).toEqual(阴曹使者.source);
-    done();
-  });
-
-  it(`Detail should get right title`, done => {
-    expect(detail1.title).toEqual(魔发奇缘.title);
-    expect(detail2.title).toEqual(阴曹使者.title);
-    done();
-  });
-
-  it(`Detail should get right types`, done => {
-    expect(detail1.types).toEqual(魔发奇缘.types);
-    expect(detail2.types).toEqual(阴曹使者.types);
-    done();
-  });
-
-  it(`Detail should get right updateDate`, done => {
-    expect(detail1.updateDate).toEqual(魔发奇缘.updateDate);
-    expect(detail2.updateDate).toEqual(阴曹使者.updateDate);
-    done();
-  });
-
-  it(`Detail should get right year`, done => {
-    expect(detail1.year).toEqual(魔发奇缘.year);
-    expect(detail2.year).toEqual(阴曹使者.year);
+  afterAll(done => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 5 * 1000;
     done();
   });
 
