@@ -3,7 +3,7 @@
  */
 export interface BaseImage {
   /** 数据库 ID 识别项 */
-  id: string;
+  id?: string;
   /** 图像标题 */
   title: string;
   /** 图像尺寸 */
@@ -46,7 +46,7 @@ export interface Wallpaper extends BaseImage { }
  * 避免过度冗余，只存储必要信息，并链接到 `Artist` 表。
  */
 export interface ArtistDoc {
-  id: string;
+  id?: string;
   name: string;
 }
 
@@ -150,7 +150,7 @@ export interface Download {
    * ele.querySelector('input').value
    * ```
    */
-  uri: string;
+  uris: string[];
   /**
    * 大小 Size
    *
@@ -188,7 +188,7 @@ export interface Movie {
    * /subject\/(.+)\//
    * ```
    */
-  id: number;
+  id: string;
 
   /**
    * 电影图片 Movie Image
@@ -240,7 +240,8 @@ export interface Movie {
    * 导演 Director
    *
    * ```javascript
-   * [...document.querySelectorAll('.attrs')[0].querySelectorAll('a')].map(v => v.textContent)
+   * [...document.querySelectorAll('.attrs')[0].querySelectorAll('a')]
+   *   .map(v => ({ name: v.textContent }))
    * ````
    */
   directors: ArtistDoc[];
@@ -249,7 +250,8 @@ export interface Movie {
    * 编剧 Writer
    *
    * ```javascript
-   * [...document.querySelectorAll('.attrs')[1].querySelectorAll('a')].map(v => v.textContent)
+   * [...document.querySelectorAll('.attrs')[1].querySelectorAll('a')]
+   *   .map(v => ({ name: v.textContent }))
    * ```
    */
   writers: ArtistDoc[];
@@ -258,7 +260,8 @@ export interface Movie {
    * 演员 Actor
    *
    * ```javascript
-   * [...document.querySelectorAll('.attrs')[2].querySelectorAll('.attrs > span > a')].map(v => v.textContent)
+   * [...document.querySelectorAll('.attrs')[2].querySelectorAll('.attrs > span > a')]
+   *   .map(v => ({ name: v.textContent }))
    * ```
    */
   actors: ArtistDoc[];
@@ -302,7 +305,7 @@ export interface Movie {
    * ].map(v => v.textContent)
    *   .map(
    *     v => ({
-   *       title: v.match(/\((.*)\)/)[1],
+   *       area: v.match(/\((.*)\)/)[1],
    *       date: new Date(v).getTime()
    *     })
    * )
