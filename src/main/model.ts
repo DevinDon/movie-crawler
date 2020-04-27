@@ -70,7 +70,7 @@ export interface SearchResult {
   /**
    * 豆瓣评分 rating
    *
-   * **评分可能为空，注意做控制判断**
+   * **评分可能为空，注意空值判断**
    *
    * ```javascript
    * nodes[3].textContent
@@ -78,7 +78,7 @@ export interface SearchResult {
    *   : undefined
    * ```
    */
-  rating: number | undefined;
+  rating?: number;
   /**
    * 详情页链接 URL
    *
@@ -187,14 +187,48 @@ export interface Douban {
  * 电影详细信息。
  *
  * `GET https://www.80s.tw/movie/电影编号`
+ *
+ * 电影信息均在 `#minfo` 元素内，下载链接在 `#myform` 元素内。
+ *
+ * ## 信息总块
+ *
+ * ```javascript
+ * const infoBlock = document.querySelector('#minfo > .info');
+ * ```
+ *
+ * ### 信息块 一
+ *
+ * 包含：类型、地区、语言、导演、上映时间、片长及更新时间
+ *
+ * ```javascript
+ * const infoBlock1 = infoBlock.querySelectorAll('.clearfix')[0];
+ * ```
+ *
+ * ### 信息块 二
+ *
+ * 包含：评分、豆瓣
+ *
+ * ```javascript
+ * const infoBlock2 = infoBlock.querySelectorAll('.clearfix')[1];
+ * ```
+ *
+ * ### 信息块 三
+ *
+ * 包含：描述
+ *
+ * ```javascript
+ * const infoBlock3 = infoBlock.querySelectorAll('.clearfix')[2];
+ * ```
  */
 export interface Detail {
+
   /**
    * 源地址，即爬取页面地址。
    *
    * Source url.
    */
   source: string;
+
   /**
    * 标题 Title
    *
@@ -205,6 +239,19 @@ export interface Detail {
    * ```
    */
   title: string;
+
+  /**
+   * 简介 Introduction
+   *
+   * ```javascript
+   * document
+   *   .querySelector('#minfo > div.info > span:nth-child(4)')
+   *   .textContent
+   *   .trim()
+   * ```
+   */
+  introduction: string;
+
   /**
    * 年份 Year
    *
@@ -218,6 +265,7 @@ export interface Detail {
    * ```
    */
   year: number;
+
   /**
    * 别名 Alias
    *
@@ -232,6 +280,7 @@ export interface Detail {
    * ```
    */
   aliases: string[];
+
   /**
    * 演员 Artist
    *
@@ -244,54 +293,59 @@ export interface Detail {
    * ```
    */
   artists: string[];
+
   /**
    * 类型 Type
    *
    * ```javascript
    * [...
-   *   document
-   *     .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(1)')
+   *   infoBlock1
+   *     .querySelector('span:nth-child(1)')
    *     .querySelectorAll('a')
    * ].map(v => v.textContent)
    * ```
    */
   types: string[];
+
   /**
    * 地区 Area
    *
    * ```javascript
    * [...
-   *   document
-   *     .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(2)')
+   *   infoBlock1
+   *     .querySelector('span:nth-child(2)')
    *     .querySelectorAll('a')
    * ].map(v => v.textContent)
    * ```
    */
   areas: string[];
+
   /**
    * 语言 Language
    *
    * ```javascript
    * [...
-   *   document
-   *     .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(3)')
+   *   infoBlock1
+   *     .querySelector('span:nth-child(3)')
    *     .querySelectorAll('a')
    * ].map(v => v.textContent)
    * ````
    */
   languages: string[];
+
   /**
    * 导演 Director
    *
    * ```javascript
    * [...
-   *   document
-   *     .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(4)')
+   *   infoBlock1
+   *     .querySelector('span:nth-child(4)')
    *     .querySelectorAll('a')
    * ].map(v => v.textContent)
    * ````
    */
   directors: string[];
+
   /**
    * 上映日期 Release Date
    *
@@ -299,14 +353,15 @@ export interface Detail {
    *
    * ```javascript
    * new Date(
-   *   document
-   *     .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(5)')
+   *   infoBlock1
+   *     .querySelector('span:nth-child(5)')
    *     .childNodes[1]
    *     .textContent
    * ).getTime()
    * ```
    */
   releaseDate: number;
+
   /**
    * 页面更新日期 Update Date
    *
@@ -314,29 +369,31 @@ export interface Detail {
    *
    * ```javascript
    * new Date(
-   *   document
-   *     .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(7)')
+   *   infoBlock1
+   *     .querySelector('span:nth-child(7)')
    *     .childNodes[1]
    *     .textContent
    * ).getTime()
    * ```
    */
   updateDate: number;
+
   /**
    * 片长 Duration
    *
    * 分钟 Minutes
    *
    * ```javascript
-   * +document
-   *   .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(6)')
+   * +infoBlock1
+   *   .querySelector('span:nth-child(6)')
    *   .childNodes[1]
    *   .textContent
    *   .trim()
-   *   .match(/(.*)分钟/)[1]
+   *   .match(/(.+)分钟/)[1]
    * ```
    */
   duration: number;
+
   /**
    * 电影评分 Rating
    *
@@ -349,8 +406,9 @@ export interface Detail {
    * ```
    */
   rating: number;
+
   /**
-   * 简介 Description
+   * 电影描述 Description
    *
    * ```javascript
    * document
@@ -361,16 +419,19 @@ export interface Detail {
    * ```
    */
   description: string;
+
   /**
    * 豆瓣信息 Douban
    *
    * 见上
    */
   douban: Douban;
+
   /**
    * 下载链接 Download
    *
    * 见上
    */
   downloads: Download[];
+
 }
