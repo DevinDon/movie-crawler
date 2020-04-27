@@ -3,9 +3,9 @@ import { Crawler, SearchResult } from '../main';
 describe('Test Search Method', () => {
 
   let crawler: Crawler;
-  let result: SearchResult[];
-  const keyword = '魔发奇缘';
-  const defined = [
+  let result1: SearchResult[];
+  const keyword1 = '魔发奇缘';
+  const defined1 = [
     {
       "title": "魔发奇缘",
       "type": "电影",
@@ -26,61 +26,91 @@ describe('Test Search Method', () => {
     }
   ];
 
+  let result2: SearchResult[];
+  const keyword2 = 'abc';
+  const defined2 = [{ "title": "26种死法2.5：M号档案", "type": "电影", "year": 2016, "aliases": ["ABC's of Death 3: Teach Harder", "26种死法3", "ABCs of Death 2.5"], "rating": 5, "url": "https://www.80s.tw/movie/21432" }, { "title": "澳大利亚ABC台：迷失的MH370", "type": "公开课", "url": "https://www.80s.tw/movie/12886" }];
+
+  const results: SearchResult[][] = [];
+  const defineds: SearchResult[][] = [defined1, defined2];
+
   beforeAll(async done => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 30 * 1000;
     crawler = new Crawler();
     done();
   });
 
-  it(`should get search result`, async done => {
-    result = await crawler.search(keyword);
-    expect(result).toBeDefined();
-    done();
-  });
-
-  it(`keyword ${keyword} should get 2 result`, done => {
-    expect(result.length).toEqual(2);
-    done();
-  });
-
-  it(`keyword ${keyword} should get right aliases`, done => {
-    for (let i = 0; i < result.length; i++) {
-      expect(result[i].aliases).toEqual(defined[i].aliases);
+  it(`should get 2 result`, async done => {
+    result1 = await crawler.search(keyword1);
+    result2 = await crawler.search(keyword2);
+    results.push(result1, result2);
+    for (const result of results) {
+      expect(result.length).toEqual(2);
     }
     done();
   });
 
-  it(`keyword ${keyword} should get right rating`, done => {
-    for (let i = 0; i < result.length; i++) {
-      expect(result[i].rating).toEqual(defined[i].rating);
+  it(`should get right aliases`, done => {
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+      const defined = defineds[i];
+      for (let j = 0; j < result.length; j++) {
+        expect(result[j].aliases).toEqual(defined[j].aliases);
+      }
     }
     done();
   });
 
-  it(`keyword ${keyword} should get right title`, done => {
-    for (let i = 0; i < result.length; i++) {
-      expect(result[i].title).toEqual(defined[i].title);
+  it(`should get right rating`, done => {
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+      const defined = defineds[i];
+      for (let i = 0; i < result.length; i++) {
+        expect(result[i].rating).toEqual(defined[i].rating);
+      }
     }
     done();
   });
 
-  it(`keyword ${keyword} should get right type`, done => {
-    for (let i = 0; i < result.length; i++) {
-      expect(result[i].type).toEqual(defined[i].type);
+  it(`should get right title`, done => {
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+      const defined = defineds[i];
+      for (let i = 0; i < result.length; i++) {
+        expect(result[i].title).toEqual(defined[i].title);
+      }
     }
     done();
   });
 
-  it(`keyword ${keyword} should get right url`, done => {
-    for (let i = 0; i < result.length; i++) {
-      expect(result[i].url).toEqual(defined[i].url);
+  it(`should get right type`, done => {
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+      const defined = defineds[i];
+      for (let i = 0; i < result.length; i++) {
+        expect(result[i].type).toEqual(defined[i].type);
+      }
     }
     done();
   });
 
-  it(`keyword ${keyword} should get right year`, done => {
-    for (let i = 0; i < result.length; i++) {
-      expect(result[i].year).toEqual(defined[i].year);
+  it(`should get right url`, done => {
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+      const defined = defineds[i];
+      for (let i = 0; i < result.length; i++) {
+        expect(result[i].url).toEqual(defined[i].url);
+      }
+    }
+    done();
+  });
+
+  it(`should get right year`, done => {
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+      const defined = defineds[i];
+      for (let i = 0; i < result.length; i++) {
+        expect(result[i].year).toEqual(defined[i].year);
+      }
     }
     done();
   });
