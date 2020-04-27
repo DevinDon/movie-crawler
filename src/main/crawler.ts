@@ -77,87 +77,93 @@ export class Crawler {
 
     const document = new JSDOM(response.text).window.document;
 
-    const doubanID = document
-      .querySelector('#minfo > div.info > div:nth-child(11) > span:nth-child(2) > a')!
+    const infoBlock = document.querySelector('#minfo > .info')!;
+    const infoBlock1 = infoBlock.querySelectorAll('.clearfix')[0];
+    const infoBlock2 = infoBlock.querySelectorAll('.clearfix')[1];
+    const infoBlock3 = infoBlock.querySelectorAll('.clearfix')[2];
+
+    const doubanID = infoBlock2
+      .querySelector('a')!
       .getAttribute('href')!
-      .match(/subject\/(.*)\/comments/)![1];
+      .match('subject\/(.+)\/comments')![1];
 
     const detail: Detail = {
       source: url,
-      title: document
-        .querySelector('#minfo > div.info > h1')!
+      title: infoBlock
+        .querySelector('h1')!
         .textContent!,
-      year: +document
-        .querySelector('#minfo > div.info')!
+      year: +infoBlock
         .childNodes[4]
         .textContent!
         .trim()
-        .match(/\((.*)\)/)![1],
-      aliases: document
-        .querySelector('#minfo > div.info > span:nth-child(6)')!
+        .match(/\((.+)\)/)![1],
+      introduction: infoBlock
+        .childNodes[7]
+        .textContent!
+        .trim(),
+      aliases: infoBlock
+        .querySelector(`span:nth-child(${infoBlock.querySelector('span:nth-child(10)') ? 8 : 6})`)!
         .childNodes[2]
         .textContent!
         .trim()
-        .replace(/ \/ /g, ' , ')
-        .split(' , '),
+        .replace(/ , /g, ' / ')
+        .split(' / '),
       artists: [...
-        document
-          .querySelector('#minfo > div.info > span:nth-child(8)')!
-          .querySelectorAll('a')
+        infoBlock
+          .querySelectorAll(`span:nth-child(${infoBlock.querySelector('span:nth-child(10)') ? 10 : 8}) > a`)
       ].map(v => v.textContent!),
       types: [...
-        document
-          .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(1)')!
+        infoBlock1
+          .querySelector('span:nth-child(1)')!
           .querySelectorAll('a')
       ].map(v => v.textContent!),
       areas: [...
-        document
-          .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(2)')!
+        infoBlock1
+          .querySelector('span:nth-child(2)')!
           .querySelectorAll('a')
       ].map(v => v.textContent!),
       languages: [...
-        document
-          .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(3)')!
+        infoBlock1
+          .querySelector('span:nth-child(3)')!
           .querySelectorAll('a')
       ].map(v => v.textContent!),
       directors: [...
-        document
-          .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(4)')!
+        infoBlock1
+          .querySelector('span:nth-child(4)')!
           .querySelectorAll('a')
       ].map(v => v.textContent!),
       releaseDate: new Date(
-        document
-          .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(5)')!
+        infoBlock1
+          .querySelector('span:nth-child(5)')!
           .childNodes[1]
           .textContent!
       ).getTime(),
       updateDate: new Date(
-        document
-          .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(7)')!
+        infoBlock1
+          .querySelector('span:nth-child(7)')!
           .childNodes[1]
           .textContent!
       ).getTime(),
-      duration: +document
-        .querySelector('#minfo > div.info > div:nth-child(10) > span:nth-child(6)')!
+      duration: +infoBlock1
+        .querySelector('span:nth-child(6)')!
         .childNodes[1]
         .textContent!
         .trim()
-        .match(/(.*)分钟/)![1],
-      rating: +document
-        .querySelector('#minfo > div.info > div:nth-child(11) > span:nth-child(1)')!
+        .match(/(.+)分钟/)![1],
+      rating: +infoBlock2
+        .querySelector('span')!
         .childNodes[4]
-        .textContent!
-        .trim(),
-      description: document
-        .querySelector('#movie_content')!
-        .childNodes[2]
         .textContent!
         .trim(),
       douban: {
         id: +doubanID,
         commentLink: `https://movie.douban.com/subject/${doubanID}/comments`,
-        MovieLink: `https://movie.douban.com/subject/${doubanID}`
+        movieLink: `https://movie.douban.com/subject/${doubanID}`
       },
+      description: infoBlock3
+        .childNodes[2]
+        .textContent!
+        .trim(),
       downloads: [...
         document
           .querySelector('#myform > ul')!
