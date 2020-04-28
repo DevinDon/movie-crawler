@@ -1,12 +1,12 @@
 /**
  * 从豆瓣爬取的搜索结果。
  *
- * GET `https://search.douban.com/movie/subject_search?search_text=%E5%86%B0%E9%9B%AA%E5%A5%87%E7%BC%98&cat=1002`
+ * GET `https://search.douban.com/movie/subject_search?search_text={{keyword}}`
  *
- * 父类
+ * 信息列表元素
  *
  * ```javascript
- * const root = [...document.querySelectorAll('#root > div > div:nth-child(2) > div:first-child > div:first-child > div:not(:last-child)')]
+ * const imtes = [...document.querySelectorAll('#root > div > div:nth-child(2) > div:first-child > div:first-child > div:not(:last-child)')]
  * ```
  */
 export interface Result {
@@ -14,7 +14,7 @@ export interface Result {
    * 豆瓣 ID
    *
    * ```javascript
-   * root.querySelector('.title > a').getAttribute('href')
+   * item.querySelector('.title > a').getAttribute('href')
    * ```
   */
   id: string;
@@ -22,7 +22,7 @@ export interface Result {
    * 封面
    *
    * ```javascript
-   * root.querySelector('img').getAttribute('src')
+   * item.querySelector('img').getAttribute('src')
    * ```
    */
   image: string;
@@ -30,7 +30,7 @@ export interface Result {
    * 标题
    *
    * ```javascript
-   * root.querySelector('.title > a').textContent
+   * item.querySelector('.title > a').textContent
    * ```
    */
   title: string;
@@ -38,7 +38,7 @@ export interface Result {
    * 年份
    *
    * ```javascript
-   * root.querySelector('.title > a').textContent.match(/\((.*)\)/)[1]
+   * item.querySelector('.title > a').textContent.match(/\((.*)\)/)[1]
    * ```
    */
   year: string;
@@ -46,7 +46,7 @@ export interface Result {
    * 评分
    *
    * ```javascript
-   * +root.querySelector('.rating_nums').textContent
+   * +item.querySelector('.rating_nums').textContent
    * ```
    */
   rating: number;
@@ -54,7 +54,7 @@ export interface Result {
    * 热度
    *
    * ```javascript
-   * +root.querySelector('.rating > .pl').textContent.match(/\((.*)人评价\)/)[1]
+   * +item.querySelector('.rating > .pl').textContent.match(/\((.*)人评价\)/)[1]
    * ```
    */
   hot: number;
@@ -62,7 +62,7 @@ export interface Result {
    * 关键字
    *
    * ```javascript
-   * [...root.querySelectorAll('.meta')].map(v => v.textContent.split(' / ')).flat()
+   * [...item.querySelectorAll('.meta')].map(v => v.textContent.split(' / ')).flat()
    * ```
    */
   keywords: string[];
