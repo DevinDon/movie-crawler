@@ -1,18 +1,16 @@
-import { Artist, Movie, Result } from "../model";
-
 /**
  * 爬虫抽象类，需要实现如下方法：
  *
  * ```typescript
- * (method) BaseCrawler.artist(uri: string): Promise<Artist>
+ * (method) BaseCrawler.artist(uri: string): Promise<any>
  * ```
  *
  * ```typescript
- * (method) BaseCrawler.movie(uri: string): Promise<Movie>
+ * (method) BaseCrawler.movie(uri: string): Promise<any>
  * ```
  *
  * ```typescript
- * (method) BaseCrawler.search(keyword: string): Promise<Result[]>
+ * (method) BaseCrawler.search(keyword: string): Promise<any[]>
  * ```
  */
 export abstract class BaseCrawler {
@@ -28,9 +26,9 @@ export abstract class BaseCrawler {
    * Get movie detail with detail page url.
    *
    * @param {string} uri Url of artist detail page.
-   * @returns {Promise<Artist>} Promise of detail.
+   * @returns {Promise<any>} Promise of detail.
    */
-  async abstract artist(uri: string): Promise<Artist>;
+  async abstract artist(uri: string): Promise<any>;
 
   /**
    * 通过详情 URL 页面解析电影信息。
@@ -38,9 +36,9 @@ export abstract class BaseCrawler {
    * Get movie detail with detail page url.
    *
    * @param {string} uri Url of movie detail page.
-   * @returns {Promise<Movie>} Promise of detail.
+   * @returns {Promise<any>} Promise of detail.
    */
-  async abstract movie(uri: string): Promise<Movie>;
+  async abstract movie(uri: string): Promise<any>;
 
   /**
    * 通过关键字搜索，返回一个搜索结果数组。
@@ -48,8 +46,8 @@ export abstract class BaseCrawler {
    * Search by keyword, return an array.
    *
    * @param {string} keyword Search keyword.
-   * @returns {Promise<Result[]>} Promise of search result array.
+   * @returns {Promise<any[]>} Promise of search result array.
    */
-  async abstract search(keyword: string): Promise<Result[]>;
+  async abstract search(keyword: string): Promise<any[]>;
 
 }
