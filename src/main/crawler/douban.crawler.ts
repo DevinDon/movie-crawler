@@ -1,5 +1,5 @@
+import Axios from 'axios';
 import { JSDOM } from 'jsdom';
-import { get } from 'superagent';
 import { Artist, Movie, Result } from "../model";
 import { BaseCrawler } from "./base.crawler";
 
@@ -23,26 +23,11 @@ export class DoubanCrawler extends BaseCrawler {
   }
 
   async movie(uri: string): Promise<Movie> {
-    const response = await get(this.movieLink + uri + '/').set(this.header);
-    const document = new JSDOM(response.text).window.document;
-    // const id = uri;
-    // const images: BaseImage = {
-    //   id: '',
-    //   title: '封面',
-    //   size: {
-    //     width: (document.querySelector('.nbgnbg > img') as any)?.naturalWidth || 0,
-    //     height: (document.querySelector('.nbgnbg > img') as any)?.naturalHeight || 0
-    //   },
-    //   url: document.querySelector('.nbgnbg > img')?.getAttribute('src') || ''
-    // };
-    // const title = document.querySelector('h1 > span')?.textContent || '';
+    const response = await Axios.get(this.movieLink + uri + '/', { headers: this.header });
+    const document = new JSDOM(response.data).window.document;
+
     const hasYear = document.querySelector('h1 > .year')?.textContent?.match(/\((.+?)\)/);
     const year = hasYear && +hasYear[1];
-    // const directors: ArtistDoc[] = [...document.querySelectorAll('.attrs')[0].querySelectorAll('a')]
-    //   .map(v => ({
-    //     id: '',
-    //     name: v.textContent || ''
-    //   }));
     const hasAreas = document.getElementById('info')?.textContent?.match(/制片国家\/地区: (.*)/);
     const areas = hasAreas && hasAreas[1].split(' / ');
     const hasLanguages = document.getElementById('info')?.textContent?.match(/语言: (.*)/);
@@ -62,6 +47,7 @@ export class DoubanCrawler extends BaseCrawler {
     const hasStar3 = document.querySelector('.ratings-on-weight > .item:nth-child(3) > .rating_per')?.textContent?.replace('%', '');
     const hasStar4 = document.querySelector('.ratings-on-weight > .item:nth-child(2) > .rating_per')?.textContent?.replace('%', '');
     const hasStar5 = document.querySelector('.ratings-on-weight > .item:nth-child(1) > .rating_per')?.textContent?.replace('%', '');
+
     return {
       id: uri,
       images: [{
