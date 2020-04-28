@@ -106,14 +106,20 @@ export class PiankuCrawler extends BaseCrawler {
       const resp1 = await Axios.get(item.url, { headers: this.header });
       try {
         const m3u8link1 = resp1.data.match(/url: '(.*)'/)![1]; // index.m3u8
-        const resp2 = await Axios.get(m3u8link1);
-        const m3u8link2 = m3u8link1.slice(0, m3u8link1.length - 10) + resp2.data.toString().split(/\n/)[2]; // 1000k/index.m3u8
-        const resp3 = await Axios.get(m3u8link2);
-        const m3u8list: string = resp3.data.toString();
-        const prefix = m3u8link2.slice(0, m3u8link2.length - 10);
+        // const resp2 = await Axios.get(m3u8link1);
+        // const m3u8link2 = m3u8link1.slice(0, m3u8link1.length - 10) + resp2.data.toString().split(/\n/)[2]; // 1000k/index.m3u8
+        // const resp3 = await Axios.get(m3u8link2);
+        // const m3u8list: string = resp3.data.toString();
+        // const prefix = m3u8link2.slice(0, m3u8link2.length - 10);
+        // results.push({
+        //   title: item.title,
+        //   uris: m3u8list.split(/\n/).filter(v => v[0] !== '#').map(v => prefix + v),
+        //   size: '0',
+        //   type: '电影'
+        // });
         results.push({
           title: item.title,
-          uris: m3u8list.split(/\n/).filter(v => v[0] !== '#').map(v => prefix + v),
+          uris: [m3u8link1],
           size: '0',
           type: '电影'
         });

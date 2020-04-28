@@ -21,7 +21,7 @@ async function main() {
   const c = new PiankuCrawler();
   const movie = await c.movieByID('25887288');
   // const movie = await c.getDownloads('wNnZjYidja');
-  // const movie = await c.search('魔发奇缘');
+  // const movie = await c.search('25887288');
 
   console.log(movie);
 
