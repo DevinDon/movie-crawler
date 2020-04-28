@@ -3,7 +3,7 @@
  */
 export interface BaseImage {
   /** 数据库 ID 识别项 */
-  id?: string;
+  id?: any;
   /** 图像标题 */
   title: string;
   /** 图像尺寸 */
@@ -234,7 +234,7 @@ export interface Movie {
    * ````
    */
   directors: {
-    id?: string;
+    id?: any;
     name: string;
   }[];
 
@@ -247,7 +247,7 @@ export interface Movie {
    * ```
    */
   writers: {
-    id?: string;
+    id?: any;
     name: string;
   }[];
 
@@ -260,7 +260,7 @@ export interface Movie {
    * ```
    */
   actors: {
-    id?: string;
+    id?: any;
     name: string;
   }[];
 
