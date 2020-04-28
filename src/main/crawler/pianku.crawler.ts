@@ -1,9 +1,9 @@
+import Axios from 'axios';
 import { JSDOM } from 'jsdom';
-import { get } from 'superagent';
-import { Artist, Download, Movie, Result } from '../model';
+import { Artist, Download, Movie } from '../model';
 import { BaseCrawler } from "./base.crawler";
 
-interface PiankuResult {
+export interface PiankuResult {
   title: string;
   url: string;
   img: string;
@@ -48,36 +48,24 @@ export class PiankuCrawler extends BaseCrawler {
   }
 
   /**
-   * 搜索电影
+   * 通过关键词搜索电影
    *
    * `GET https://www.pianku.tv/s/ajax.php?q={{keyword}}`
    */
-  async search(keyword: string): Promise<Result[]> {
-    const response = await get(this.searchLink + '?q=' + encodeURIComponent(keyword))
-    const searchResults: PiankuResult[] = JSON.parse(response.text).data;
-    const results: Result[] = [];
-    for (const searchResult of searchResults) {
-      const result: Result = {
-        id: await this.getDoubanID(searchResult.url.match(/mv\/(.*).html/)![1]),
-        title: searchResult.title,
-        image: searchResult.img,
-        url: this.header.Origin + searchResult.url,
-        type: searchResult.type,
-        year: searchResult.year
-      }
-      results.push(result);
-    }
+  async search(keyword: string): Promise<PiankuResult[]> {
+    const response = await Axios.get(this.searchLink + '?q=' + encodeURIComponent(keyword))
+    const results: PiankuResult[] = response.data.data;
     return results;
   }
 
   /**
-   * 解析出豆瓣 ID。
+   * 通过 URI 在详情页解析出豆瓣 ID。
    *
    * 可能不存在。
    */
   private async getDoubanID(uri: string): Promise<string | undefined> {
-    const response = await get(this.movieLink + uri + '.html').set(this.header);
-    const document = new JSDOM(response.text).window.document;
+    const response = await Axios.get(this.movieLink + uri + '.html', { headers: this.header });
+    const document = new JSDOM(response.data).window.document;
     const link: string | undefined = document.querySelector('.douban0 > a')?.getAttribute('href') || undefined;
     const id = link && link[link.length - 1] === '/'
       ? /subject\/(.+)\//.test(link) && link.match(/subject\/(.+)\//)![1]
@@ -86,13 +74,13 @@ export class PiankuCrawler extends BaseCrawler {
   }
 
   /**
-   * 解析视频地址。
+   * 通过 URI 在下载页解析视频地址。
    *
    * @param uri uri
    */
   public async getDownloads(uri: string): Promise<Download[]> {
-    const response = await get(this.downloadLink + uri + '_mv/').set(this.header);
-    const document = new JSDOM(response.text).window.document;
+    const response = await Axios.get(this.downloadLink + uri + '_mv/', { headers: this.header });
+    const document = new JSDOM(response.data).window.document;
     /** 直接解析在线播放地址，缓存 m3u8 文件列表 */
     const list = [...document.querySelectorAll('.player.ckp > li > a')]
       .map(v => ({
@@ -105,13 +93,13 @@ export class PiankuCrawler extends BaseCrawler {
     }
     // 解析整个列表
     for (const item of list) {
-      const resp1 = await get(item.url).set(this.header);
+      const resp1 = await Axios.get(item.url, { headers: this.header });
       try {
-        const m3u8link1 = resp1.text.match(/url: '(.*)'/)![1]; // index.m3u8
-        const resp2 = await get(m3u8link1);
-        const m3u8link2 = m3u8link1.slice(0, m3u8link1.length - 10) + resp2.body.toString().split(/\n/)[2]; // 1000k/index.m3u8
-        const resp3 = await get(m3u8link2);
-        const m3u8list: string = resp3.body.toString();
+        const m3u8link1 = resp1.data.match(/url: '(.*)'/)![1]; // index.m3u8
+        const resp2 = await Axios.get(m3u8link1);
+        const m3u8link2 = m3u8link1.slice(0, m3u8link1.length - 10) + resp2.data.toString().split(/\n/)[2]; // 1000k/index.m3u8
+        const resp3 = await Axios.get(m3u8link2);
+        const m3u8list: string = resp3.data.toString();
         const prefix = m3u8link2.slice(0, m3u8link2.length - 10);
         results.push({
           title: item.title,
