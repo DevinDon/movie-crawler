@@ -6,44 +6,251 @@
 
 ```typescript
 const crawler = new Crawler();
-const result: SearchResult[] = await crawler.search('肥龙过江');
+const results: Result[] = await crawler.search('魔发奇缘');
 ```
 
 Result type:
 
 ```typescript
-interface SearchResult {
-  title: string; // #block1 > ul > li > a [title]
-  url: string; // #block1 > ul > li > a [href]
+export interface Result {
+  title: string;
+  image: string;
+  url: string;
+  type: string;
+  year: string;
+  description?: string;
 }
 ```
 
 ## Get movie detail
 
 ```typescript
-const crawler = new Crawler();
-const detail = await crawler.getDetail('http://www.y80s.com/movie/38197');
+/** 豆瓣 movie.douban.com */
+const crawler = new DoubanCrawler();
+const detail = await crawler.getDetail('25887288');
+```
+
+```typescript
+/** 片库 pianku.tv */
+const crawler = new PiankuCrawler();
+const detail = await crawler.getDetail('wNnZjYidja');
 ```
 
 Detail type:
 
-```typescript
-interface Download {
-  title: string;
-  url: string;
-  size: string;
-}
+[See src/main/model/movie.ts for more detail.](./src/main/model/movie.ts)
 
-interface Detail {
-  title: string; // #minfo > div.info > h1
-  image: string; // #minfo > div.img > img
-  artist: string; // #minfo > div.info > div:nth-child(3) > span:nth-child(9) > a
-  desc: string; // #movie_content_all
-  type: string; // #minfo > div.info > div:nth-child(3) > span:nth-child(7) > a
-  area: string; // #minfo > div.info > div:nth-child(3) > span:nth-child(8) > a
-  date: string; // #minfo > div.info > div:nth-child(3) > span:nth-child(10)
-  rate: string; // #minfo > div.info > div:nth-child(4) > div
-  download: Download[]; // #myform > ul > li:not(:first-child):not(:last-child)
+```typescript
+/**
+ * 电影信息。
+ *
+ * Movie detail.
+ *
+ * `GET https://movie.douban.com/subject/{{id}}/`
+ *
+ */
+export interface Movie {
+
+  /**
+   * 豆瓣电影编号 ID
+   *
+   * 从地址获取，正则匹配如下：
+   *
+   * ```javascript
+   * /subject\/(.+)\//
+   * ```
+   */
+  id: string;
+
+  /**
+   * 电影图片 Movie Image
+   *
+   * 默认封面 default
+   *
+   * ```javascript
+   * {
+   *   title: '封面',
+   *   size: {
+   *     width: document.querySelector('.nbgnbg > img').naturalWidth,
+   *     height: document.querySelector('.nbgnbg > img').naturalHeight
+   *   },
+   *   url: document.querySelector('.nbgnbg > img').getAttribute('src')
+   * }
+   * ```
+   */
+  images: {
+    default: BaseImage;
+    posters: Poster[];
+    stills: Still[];
+    wallpapers: Wallpaper[];
+  };
+
+  /**
+   * 标题 Title
+   *
+   * ```javascript
+   * document
+   *   .querySelector('h1 > span')
+   *   .textContent
+   * ```
+   */
+  title: string;
+
+  /**
+   * 年份 Year
+   *
+   * ```javascript
+   * +document
+   *   .querySelector('h1 > .year')
+   *   .textContent
+   *   .match(/\((.+?)\)/)[1]
+   * ```
+   */
+  year: number;
+
+  /**
+   * 导演 Director
+   *
+   * ```javascript
+   * [...document.querySelectorAll('.attrs')[0].querySelectorAll('a')]
+   *   .map(v => ({ name: v.textContent }))
+   * ````
+   */
+  directors: ArtistDoc[];
+
+  /**
+   * 编剧 Writer
+   *
+   * ```javascript
+   * [...document.querySelectorAll('.attrs')[1].querySelectorAll('a')]
+   *   .map(v => ({ name: v.textContent }))
+   * ```
+   */
+  writers: ArtistDoc[];
+
+  /**
+   * 演员 Actor
+   *
+   * ```javascript
+   * [...document.querySelectorAll('.attrs')[2].querySelectorAll('.attrs > span > a')]
+   *   .map(v => ({ name: v.textContent }))
+   * ```
+   */
+  actors: ArtistDoc[];
+
+  /**
+   * 类型 Type
+   *
+   * ```javascript
+   * [...document.querySelectorAll('[property="v:genre"]')].map(v => v.textContent)
+   * ```
+   */
+  types: string[];
+
+  /**
+   * 地区 Area
+   *
+   * ```javascript
+   * document.getElementById('info').textContent.match(/制片国家\/地区: (.*)/)[1].split(' / ')
+   * ```
+   */
+  areas: string[];
+
+  /**
+   * 语言 Language
+   *
+   * ```javascript
+   * document.getElementById('info').textContent.match(/语言: (.*)/)[1].split(' / ')
+   * ````
+   */
+  languages: string[];
+
+  /**
+   * 上映日期 Release Date
+   *
+   * JavaScript 数字时间戳
+   *
+   * ```javascript
+   * [...
+   *   document
+   *     .querySelectorAll('[property="v:initialReleaseDate"]')
+   * ].map(v => v.textContent)
+   *   .map(
+   *     v => ({
+   *       area: v.match(/\((.*)\)/)[1],
+   *       date: new Date(v).getTime()
+   *     })
+   * )
+   * ```
+   */
+  releaseDate: ReleaseDate[];
+
+  /**
+   * 页面更新日期 Update Date
+   *
+   * JavaScript 数字时间戳
+   *
+   * 用于数据库标识
+   */
+  updateDate: number;
+
+  /**
+   * 片长 Duration
+   *
+   * 分钟 Minutes
+   *
+   * ```javascript
+   * +document.querySelector('[property="v:runtime"]').textContent.replace('分钟', '')
+   * ```
+   */
+  duration: number;
+
+  /**
+   * 别名 Alias
+   *
+   * ```javascript
+   * document.getElementById('info').textContent.match(/又名: (.*)/)[1].split(' / ')
+   * ```
+   */
+  aliases: string[];
+
+  /**
+   * IMDb 编号
+   *
+   * ```javascript
+   * document.getElementById('info').textContent.match(/IMDb链接: (.*)/)[1]
+   * ```
+   */
+  imdb: string;
+
+  /**
+   * 电影评分 Rating
+   *
+   * 见上
+   */
+  rating: Rating;
+
+  /**
+   * 剧情介绍 Description
+   *
+   * ```javascript
+   * document.querySelector('[property="v:summary"]').textContent.trim()
+   * ```
+   */
+  description: string;
+
+  /**
+   * 下载链接 Download
+   *
+   * 见上
+   */
+  downloads: Download[];
+
+  /**
+   * 其他网站的对应 Links
+   */
+  links: string[];
+
 }
 ```
 
