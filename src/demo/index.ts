@@ -1,5 +1,6 @@
 import { DoubanCrawler } from '../main/crawler/douban.crawler';
 import { PiankuCrawler } from '../main/crawler/pianku.crawler';
+import { Movie } from '../main';
 
 async function main() {
 
@@ -14,12 +15,12 @@ async function main() {
 
   // // document.scripts[14].textContent.match(/url: '(.*)'/)[1]
 
-  // const c = new DoubanCrawler();
-  // const movie = await c.movie('25887288');
+  const c = new DoubanCrawler();
+  const movie = await c.movie('26417164');
   // const movie = await c.search('魔发奇缘');
 
-  const c = new PiankuCrawler();
-  const movie = await c.movieByID('25887288');
+  // const c = new PiankuCrawler();
+  // const movie = await c.movieByID('25887288');
   // const movie = await c.getDownloads('wNnZjYidja');
   // const movie = await c.search('25887288');
 

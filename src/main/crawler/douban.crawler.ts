@@ -45,6 +45,9 @@ export class DoubanCrawler extends BaseCrawler {
 
     const hasYear = document.querySelector('h1 > .year')?.textContent?.match(/\((.+?)\)/);
     const year = hasYear && +hasYear[1];
+    const hasDirectors = document.querySelectorAll('.attrs')[0];
+    const hasWriters = document.querySelectorAll('.attrs')[1];
+    const hasActors = document.querySelectorAll('.attrs')[2];
     const hasAreas = document.getElementById('info')?.textContent?.match(/制片国家\/地区: (.*)/);
     const areas = hasAreas && hasAreas[1].split(' / ');
     const hasLanguages = document.getElementById('info')?.textContent?.match(/语言: (.*)/);
@@ -78,21 +81,21 @@ export class DoubanCrawler extends BaseCrawler {
       }],
       title: document.querySelector('h1 > span')?.textContent!,
       year: year || 0,
-      directors: [...document.querySelectorAll('.attrs')[0].querySelectorAll('a')]
+      directors: hasDirectors ? [...hasDirectors.querySelectorAll('a')]
         .map(v => ({
-          id: v.getAttribute('href')!.replace('celebrity', '').replace(/\//g, ''),
+          id: v.getAttribute('href')?.replace('celebrity', '').replace(/\//g, ''),
           name: v.textContent!
-        })),
-      writers: [...document.querySelectorAll('.attrs')[1].querySelectorAll('a')]
+        })) : [],
+      writers: hasWriters ? [...hasWriters.querySelectorAll('a')]
         .map(v => ({
-          id: v.getAttribute('href')!.replace('celebrity', '').replace(/\//g, ''),
+          id: v.getAttribute('href')?.replace('celebrity', '').replace(/\//g, ''),
           name: v.textContent!
-        })),
-      actors: [...document.querySelectorAll('.attrs')[2].querySelectorAll('span > a')]
+        })) : [],
+      actors: hasActors ? [...hasActors.querySelectorAll('span > a')]
         .map(v => ({
-          id: v.getAttribute('href')!.replace('celebrity', '').replace(/\//g, ''),
+          id: v.getAttribute('href')?.replace('celebrity', '').replace(/\//g, ''),
           name: v.textContent!
-        })),
+        })) : [],
       types: [...document.querySelectorAll('[property="v:genre"]')].map(v => v.textContent!),
       areas: areas || [],
       languages: languages || [],
@@ -135,6 +138,7 @@ export class DoubanCrawler extends BaseCrawler {
       params: { q: keyword },
       headers: this.header
     });
+
     const results: DoubanSearchResult[] = response.data;
 
     return results;
