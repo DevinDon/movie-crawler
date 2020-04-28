@@ -256,6 +256,10 @@ export interface Movie {
 
 # Change Log
 
+## 0.5.0 => 0.6.0
+
+- perf(model): optimize some models
+
 ## 0.4.0 => 0.5.0
 
 - refactor: 重构数据结构，包含但不限于电影、演员、导演、编剧等
