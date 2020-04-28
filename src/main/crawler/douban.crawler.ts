@@ -182,14 +182,14 @@ export class DoubanCrawler extends BaseCrawler {
    *
    * `https://movie.douban.com/j/search_subjects?type=movie&tag=%E5%96%9C%E5%89%A7&sort=recommend&page_limit=20&page_start=0`
    */
-  async suggest(tag: Tag = '热门', start: number = 0) {
+  async suggest(tag: Tag = '热门', start: number = 0, limit: number = 10) {
     const suggestResult: DoubanSuggestResult[] = await Axios.get(this.suggestLink, {
       params: {
         type: 'movie',
         tag,
         sort: 'recommend',
-        page_limit: 100,
-        page_start: start
+        page_start: start,
+        page_limit: limit
       },
       headers: this.header
     })
