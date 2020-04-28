@@ -39,12 +39,22 @@ export class PiankuCrawler extends BaseCrawler {
     throw new Error("Method not implemented.");
   }
 
-  async movie(uri: string): Promise<Pick<Movie, 'id' | 'links' | 'downloads'>> {
-    return {
-      id: await this.getDoubanID(uri),
+  async movie(uri: string): Promise<Pick<Movie, 'id' | 'links' | 'downloads'> | undefined> {
+    const id = await this.getDoubanID(uri);
+    return id && {
+      id,
       links: [this.movieLink + uri + '.html'],
       downloads: await this.getDownloads(uri)
-    } as any;
+    } || undefined;
+  }
+
+  async movieByID(id: string): Promise<Pick<Movie, 'id' | 'links' | 'downloads'> | undefined> {
+    const result = (await this.search(id))[0];
+    if (result && result.url?.match(/mv\/(.*).html/)) {
+      const uri = result.url.match(/mv\/(.*).html/)![1];
+      return this.movie(uri);
+    }
+    return undefined;
   }
 
   /**
