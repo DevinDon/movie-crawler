@@ -22,8 +22,9 @@ export class DoubanCrawler extends BaseCrawler {
     throw new Error("Method not implemented.");
   }
 
-  async movie(uri: string): Promise<Movie> {
-    const response = await Axios.get(this.movieLink + uri + '/', { headers: this.header });
+  async movie(id: string): Promise<Movie> {
+
+    const response = await Axios.get(this.movieLink + id + '/', { headers: this.header });
     const document = new JSDOM(response.data).window.document;
 
     const hasYear = document.querySelector('h1 > .year')?.textContent?.match(/\((.+?)\)/);
@@ -49,7 +50,7 @@ export class DoubanCrawler extends BaseCrawler {
     const hasStar5 = document.querySelector('.ratings-on-weight > .item:nth-child(1) > .rating_per')?.textContent?.replace('%', '');
 
     return {
-      id: uri,
+      id: id,
       images: [{
         title: '封面',
         size: {
@@ -101,7 +102,8 @@ export class DoubanCrawler extends BaseCrawler {
       description: document.querySelector('[property="v:summary"]')?.textContent?.trim() || '暂无简介',
       downloads: [],
       links: []
-    };
+    }
+
   }
 
   search(keyword: string): Promise<Result[]> {
