@@ -20,9 +20,9 @@ export interface PiankuResult {
  */
 export class PiankuCrawler extends BaseCrawler {
 
-  private searchLink = 'https://www.pianku.tv/s/ajax.php';
-  private movieLink = 'https://www.pianku.tv/mv/';
-  private downloadLink = 'https://www.pianku.tv/ajax/downurl/';
+  private readonly searchLink = 'https://www.pianku.tv/s/ajax.php';
+  private readonly movieLink = 'https://www.pianku.tv/mv/';
+  private readonly downloadLink = 'https://www.pianku.tv/ajax/downurl/';
 
   constructor() {
     super(
