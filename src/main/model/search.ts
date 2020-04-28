@@ -10,6 +10,7 @@
  * ```
  */
 export interface Result {
+
   /**
    * 豆瓣 ID
    *
@@ -18,6 +19,7 @@ export interface Result {
    * ```
   */
   id: string;
+
   /**
    * 封面
    *
@@ -34,6 +36,7 @@ export interface Result {
    * ```
    */
   title: string;
+
   /**
    * 年份
    *
@@ -42,6 +45,7 @@ export interface Result {
    * ```
    */
   year: string;
+
   /**
    * 评分
    *
@@ -50,6 +54,7 @@ export interface Result {
    * ```
    */
   rating: number;
+
   /**
    * 热度
    *
@@ -58,6 +63,7 @@ export interface Result {
    * ```
    */
   hot: number;
+
   /**
    * 关键字
    *
@@ -66,8 +72,14 @@ export interface Result {
    * ```
    */
   keywords: string[];
-  /** 描述 */
+
+  /**
+   * 描述
+   *
+   * 后期合并更新
+   */
   description?: string;
+
 }
 
 // 详情页面
