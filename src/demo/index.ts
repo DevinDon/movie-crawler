@@ -16,15 +16,18 @@ async function main() {
   // // document.scripts[14].textContent.match(/url: '(.*)'/)[1]
 
   const c = new DoubanCrawler();
-  const movie = await c.movie('26417164');
-  // const movie = await c.search('魔发奇缘');
+  // const result = await c.result('26417164');
+  // const result = await c.search('魔发奇缘');
+  const result = await c.tags();
+  const result2 = await c.suggest();
+  const result3 = await c.suggest('热门', 100);
 
   // const c = new PiankuCrawler();
-  // const movie = await c.movieByID('25887288');
-  // const movie = await c.getDownloads('wNnZjYidja');
-  // const movie = await c.search('25887288');
+  // const result = await c.movieByID('25887288');
+  // const result = await c.getDownloads('wNnZjYidja');
+  // const result = await c.search('25887288');
 
-  console.log(movie);
+  console.log(result);
 
 }
 

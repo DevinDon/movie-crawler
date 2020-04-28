@@ -14,11 +14,26 @@ export interface DoubanSearchResult {
   id: string;
 }
 
+export interface DoubanSuggestResult {
+  rate: string;
+  cover_x: number;
+  title: string;
+  url: string;
+  playable: boolean;
+  cover: string;
+  id: string;
+  cover_y: number;
+  is_new: boolean;
+}
+
+export type Tag = '热门' | '最新' | '经典' | '豆瓣高分' | '冷门佳片' | '华语' | '欧美' | '韩国' | '日本' | '动作' | '喜剧' | '爱情' | '科幻' | '悬疑' | '恐怖' | '文艺';
 
 export class DoubanCrawler extends BaseCrawler {
 
   private readonly movieLink = 'https://movie.douban.com/subject/';
   private readonly searchLink = 'https://movie.douban.com/j/subject_suggest';
+  private readonly suggestTagLink = 'https://movie.douban.com/j/search_tags';
+  private readonly suggestLink = 'https://movie.douban.com/j/search_subjects';
 
   constructor() {
     super(
@@ -143,6 +158,44 @@ export class DoubanCrawler extends BaseCrawler {
 
     return results;
 
+  }
+
+  /**
+   * 获取推荐电影的分类标签
+   */
+  async tags() {
+    const tags: string[] = await Axios.get(this.suggestTagLink, {
+      params: { type: 'movie' },
+      headers: this.header
+    })
+      .then(v => v.data.tags)
+      .catch(e => (console.error('Tag get failed', e), []));
+    return tags;
+  }
+
+  /**
+   * 获取推荐电影。
+   *
+   * 1. 获取分类
+   *
+   * `https://movie.douban.com/j/search_tags?type=movie`
+   *
+   * `https://movie.douban.com/j/search_subjects?type=movie&tag=%E5%96%9C%E5%89%A7&sort=recommend&page_limit=20&page_start=0`
+   */
+  async suggest(tag: Tag = '热门', start: number = 0) {
+    const suggestResult: DoubanSuggestResult = await Axios.get(this.suggestLink, {
+      params: {
+        type: 'movie',
+        tag,
+        sort: 'recommend',
+        page_limit: 100,
+        page_start: start
+      },
+      headers: this.header
+    })
+      .then(v => v.data.subjects)
+      .catch(e => (console.error('Suggest failed: ', e), []));
+    return suggestResult;
   }
 
 }
