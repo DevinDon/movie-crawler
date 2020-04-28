@@ -1,9 +1,15 @@
 /**
  * 电影图片相关。
+ *
+ * Poster `GET https://movie.douban.com/subject/{{id}}/photos?type=R`
+ *
+ * Still `GET https://movie.douban.com/subject/{{id}}/photos?type=S`
+ *
+ * Wallpaper `GET https://movie.douban.com/subject/{{id}}/photos?type=W`
  */
 export interface BaseImage {
-  /** 数据库 ID 识别项 */
-  id?: any;
+  /** 数据库 ID 识别项 GridFS Object ID */
+  object?: any;
   /** 图像标题 */
   title: string;
   /** 图像尺寸 */
@@ -16,33 +22,6 @@ export interface BaseImage {
   /** 类型，如 poster, still, wallpaper 等 */
   type: 'poster' | 'still' | 'wallpaper' | any;
 }
-
-/**
- * 海报。
- *
- * Poster.
- *
- * `GET https://movie.douban.com/subject/{{id}}/photos?type=R`
- */
-export interface Poster extends BaseImage { }
-
-/**
- * 剧照。
- *
- * Still.
- *
- * `GET https://movie.douban.com/subject/{{id}}/photos?type=S`
- */
-export interface Still extends BaseImage { }
-
-/**
- * 壁纸。
- *
- * Wallpaper.
- *
- * `GET https://movie.douban.com/subject/{{id}}/photos?type=W`
- */
-export interface Wallpaper extends BaseImage { }
 
 /**
  * 发布日期。
@@ -123,7 +102,7 @@ export interface Rating {
 /**
  * 下载链接 Download
  *
- * 从 `pianku.tv` 解析的下载链接
+ * 从第三方网站解析的下载链接
  *
  * ```javascript
  * ```
@@ -133,7 +112,6 @@ export interface Download {
    * 标题 Title
    *
    * ```javascript
-   * ele.querySelector('a').textContent.trim()
    * ```
    */
   title: string;
@@ -141,7 +119,6 @@ export interface Download {
    * 链接 URI
    *
    * ```javascript
-   * ele.querySelector('input').value
    * ```
    */
   uris: string[];
@@ -149,7 +126,6 @@ export interface Download {
    * 大小 Size
    *
    * ```javascript
-   * ele.querySelector('span').childNodes[4].textContent.trim()
    * ```
    */
   size: string;
@@ -157,7 +133,6 @@ export interface Download {
    * 类型 Type
    *
    * ```javascript
-   * ele.querySelector('span').childNodes[1].textContent.trim()
    * ```
    */
   type: string;
@@ -234,7 +209,7 @@ export interface Movie {
    * ````
    */
   directors: {
-    id?: any;
+    id?: string;
     name: string;
   }[];
 
@@ -247,7 +222,7 @@ export interface Movie {
    * ```
    */
   writers: {
-    id?: any;
+    id?: string;
     name: string;
   }[];
 
@@ -260,7 +235,7 @@ export interface Movie {
    * ```
    */
   actors: {
-    id?: any;
+    id?: string;
     name: string;
   }[];
 

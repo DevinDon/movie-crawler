@@ -54,18 +54,26 @@ export class PiankuCrawler extends BaseCrawler {
    */
   async search(keyword: string): Promise<Result[]> {
     const response = await get(this.searchLink + '?q=' + encodeURIComponent(keyword))
-    const results: PiankuResult[] = JSON.parse(response.text).data;
-    return results.map(result => ({
-      title: result.title,
-      image: result.img,
-      url: this.header.Origin + result.url,
-      type: result.type,
-      year: result.year
-    }));
+    const searchResults: PiankuResult[] = JSON.parse(response.text).data;
+    const results: Result[] = [];
+    for (const searchResult of searchResults) {
+      const result: Result = {
+        id: await this.getDoubanID(searchResult.url.match(/mv\/(.*).html/)![1]),
+        title: searchResult.title,
+        image: searchResult.img,
+        url: this.header.Origin + searchResult.url,
+        type: searchResult.type,
+        year: searchResult.year
+      }
+      results.push(result);
+    }
+    return results;
   }
 
   /**
    * 解析出豆瓣 ID。
+   *
+   * 可能不存在。
    */
   private async getDoubanID(uri: string): Promise<string | undefined> {
     const response = await get(this.movieLink + uri + '.html').set(this.header);
