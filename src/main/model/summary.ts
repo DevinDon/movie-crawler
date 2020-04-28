@@ -9,6 +9,11 @@ export interface Summary {
   id: string;
 
   /**
+   * 类别，电影、电视剧、音乐短片等
+   */
+  type: string;
+
+  /**
    * 封面
    */
   image: string;
