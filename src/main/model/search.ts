@@ -6,7 +6,7 @@
  * 信息列表元素
  *
  * ```javascript
- * const imtes = [...document.querySelectorAll('#root > div > div:nth-child(2) > div:first-child > div:first-child > div:not(:last-child)')]
+ * const items = [...document.querySelectorAll('#root > div > div:nth-child(2) > div:first-child > div:first-child > div:not(:last-child)')]
  * ```
  */
 export interface Result {
@@ -28,6 +28,7 @@ export interface Result {
    * ```
    */
   image: string;
+
   /**
    * 标题
    *
@@ -44,7 +45,7 @@ export interface Result {
    * item.querySelector('.title > a').textContent.match(/\((.*)\)/)[1]
    * ```
    */
-  year: string;
+  year: number;
 
   /**
    * 评分

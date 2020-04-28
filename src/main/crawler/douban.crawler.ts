@@ -6,6 +6,7 @@ import { BaseCrawler } from "./base.crawler";
 export class DoubanCrawler extends BaseCrawler {
 
   private readonly movieLink = 'https://movie.douban.com/subject/';
+  private readonly searchLink = 'https://search.douban.com/movie/subject_search';
 
   constructor() {
     super(
@@ -106,8 +107,33 @@ export class DoubanCrawler extends BaseCrawler {
 
   }
 
-  search(keyword: string): Promise<Result[]> {
-    throw new Error("Method not implemented.");
+  async search(keyword: string): Promise<Result[]> {
+
+    const response = await Axios.get(this.searchLink, {
+      params: { search_text: keyword },
+      headers: this.header
+    });
+    const document = new JSDOM(response.data).window.document;
+
+    const items = [...document.querySelectorAll('#root > div > div:nth-child(2) > div:first-child > div:first-child > div:not(:last-child)')];
+
+    return items.map<Result>(item => {
+      const hasYear = item.querySelector('.title > a')?.textContent?.match(/\((.*)\)/);
+      const hasRating = item.querySelector('.rating_nums')?.textContent;
+      const hasHot = item.querySelector('.rating > .pl')?.textContent?.match(/\((.*)人评价\)/);
+      const hasKeywords = [...item.querySelectorAll('.meta')]
+        .map(v => v.textContent?.split(' / ') || []);
+      return {
+        id: item.querySelector('.title > a')?.getAttribute('href') || '',
+        image: item.querySelector('img')?.getAttribute('src') || '',
+        title: item.querySelector('.title > a')?.textContent || '',
+        year: hasYear ? +hasYear[1] : 0,
+        rating: hasRating ? +hasRating : 0,
+        hot: hasHot ? +hasHot : 0,
+        keywords: hasKeywords ? hasKeywords.flat() : []
+      }
+    });
+
   }
 
 }
