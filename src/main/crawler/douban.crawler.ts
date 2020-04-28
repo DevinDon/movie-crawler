@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { JSDOM } from 'jsdom';
-import { Artist, Movie, Result } from "../model";
+import { Artist, Movie } from "../model";
 import { BaseCrawler } from "./base.crawler";
 
 export interface DoubanSearchResult {
