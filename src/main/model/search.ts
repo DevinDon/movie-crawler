@@ -4,6 +4,7 @@ export interface Result {
   url: string;
   type: string;
   year: string;
+  description?: string;
 }
 
 // 详情页面
