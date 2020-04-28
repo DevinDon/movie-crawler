@@ -35,9 +35,12 @@ export class DoubanCrawler extends BaseCrawler {
     throw new Error("Method not implemented.");
   }
 
-  async movie(id: string): Promise<Movie> {
+  async movie(id: string): Promise<Movie | undefined> {
 
-    const response = await Axios.get(this.movieLink + id + '/', { headers: this.header });
+    const response = await Axios.get(this.movieLink + id + '/', { headers: this.header })
+      .catch(e => console.error(e));
+    // 404 之类的错误，直接返回 undefined
+    if (!response) { return; }
     const document = new JSDOM(response.data).window.document;
 
     const hasYear = document.querySelector('h1 > .year')?.textContent?.match(/\((.+?)\)/);
