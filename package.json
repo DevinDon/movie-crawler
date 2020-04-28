@@ -1,6 +1,6 @@
 {
   "name": "@iinfinity/movie-crawler",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Movie crawler for y80s.com",
   "main": "dist/index.js",
   "directories": {
