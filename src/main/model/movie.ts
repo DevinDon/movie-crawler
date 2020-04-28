@@ -20,7 +20,7 @@ export interface BaseImage {
   /** 原始地址 */
   url: string;
   /** 类型，如 poster, still, wallpaper 等 */
-  type: 'poster' | 'still' | 'wallpaper' | any;
+  type: 'cover' | 'poster' | 'still' | 'wallpaper' | any;
 }
 
 /**
