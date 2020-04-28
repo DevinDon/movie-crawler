@@ -39,7 +39,7 @@ export class PiankuCrawler extends BaseCrawler {
     throw new Error("Method not implemented.");
   }
 
-  async movie(uri: string): Promise<Movie> {
+  async movie(uri: string): Promise<Pick<Movie, 'id' | 'links' | 'downloads'>> {
     return {
       id: await this.getDoubanID(uri),
       links: [this.movieLink + uri + '.html'],
