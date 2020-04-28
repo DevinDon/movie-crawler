@@ -121,7 +121,7 @@ export class PiankuCrawler extends BaseCrawler {
           title: item.title,
           uris: [m3u8link1],
           size: '0',
-          type: '电影'
+          type: 'movie'
         });
       } catch (error) {
         console.error(error);
