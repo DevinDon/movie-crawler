@@ -1,6 +1,6 @@
 import { JSDOM } from 'jsdom';
 import { get } from 'superagent';
-import { Artist, Movie, Result, Download } from '../model';
+import { Artist, Download, Movie, Result } from '../model';
 import { BaseCrawler } from "./base.crawler";
 
 interface PiankuResult {

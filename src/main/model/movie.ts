@@ -13,6 +13,8 @@ export interface BaseImage {
   }
   /** 原始地址 */
   url: string;
+  /** 类型，如 poster, still, wallpaper 等 */
+  type: 'poster' | 'still' | 'wallpaper' | any;
 }
 
 /**
@@ -41,14 +43,6 @@ export interface Still extends BaseImage { }
  * `GET https://movie.douban.com/subject/{{id}}/photos?type=W`
  */
 export interface Wallpaper extends BaseImage { }
-
-/**
- * 避免过度冗余，只存储必要信息，并链接到 `Artist` 表。
- */
-export interface ArtistDoc {
-  id?: string;
-  name: string;
-}
 
 /**
  * 发布日期。
@@ -206,12 +200,7 @@ export interface Movie {
    * }
    * ```
    */
-  images: {
-    default: BaseImage;
-    posters: Poster[];
-    stills: Still[];
-    wallpapers: Wallpaper[];
-  };
+  images: BaseImage[];
 
   /**
    * 标题 Title
@@ -244,7 +233,10 @@ export interface Movie {
    *   .map(v => ({ name: v.textContent }))
    * ````
    */
-  directors: ArtistDoc[];
+  directors: {
+    id?: string;
+    name: string;
+  }[];
 
   /**
    * 编剧 Writer
@@ -254,7 +246,10 @@ export interface Movie {
    *   .map(v => ({ name: v.textContent }))
    * ```
    */
-  writers: ArtistDoc[];
+  writers: {
+    id?: string;
+    name: string;
+  }[];
 
   /**
    * 演员 Actor
@@ -264,7 +259,10 @@ export interface Movie {
    *   .map(v => ({ name: v.textContent }))
    * ```
    */
-  actors: ArtistDoc[];
+  actors: {
+    id?: string;
+    name: string;
+  }[];
 
   /**
    * 类型 Type

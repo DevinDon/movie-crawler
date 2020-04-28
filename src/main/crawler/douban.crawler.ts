@@ -1,7 +1,7 @@
-import { Artist, Movie, Result, BaseImage, ArtistDoc } from "../model";
-import { BaseCrawler } from "./base.crawler";
 import { JSDOM } from 'jsdom';
 import { get } from 'superagent';
+import { Artist, Movie, Result } from "../model";
+import { BaseCrawler } from "./base.crawler";
 
 export class DoubanCrawler extends BaseCrawler {
 
@@ -64,19 +64,15 @@ export class DoubanCrawler extends BaseCrawler {
     const hasStar5 = document.querySelector('.ratings-on-weight > .item:nth-child(1) > .rating_per')?.textContent?.replace('%', '');
     return {
       id: uri,
-      images: {
-        default: {
-          title: '封面',
-          size: {
-            width: (document.querySelector('.nbgnbg > img') as any)?.width,
-            height: (document.querySelector('.nbgnbg > img') as any)?.height
-          },
-          url: document.querySelector('.nbgnbg > img')?.getAttribute('src')!
+      images: [{
+        title: '封面',
+        size: {
+          width: (document.querySelector('.nbgnbg > img') as any)?.width,
+          height: (document.querySelector('.nbgnbg > img') as any)?.height
         },
-        posters: [],
-        stills: [],
-        wallpapers: []
-      },
+        url: document.querySelector('.nbgnbg > img')?.getAttribute('src')!,
+        type: 'poster'
+      }],
       title: document.querySelector('h1 > span')?.textContent!,
       year: year || 0,
       directors: [...document.querySelectorAll('.attrs')[0].querySelectorAll('a')]

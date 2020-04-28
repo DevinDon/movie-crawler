@@ -1,4 +1,4 @@
-import { Movie, Result, Artist } from "../model";
+import { Artist, Movie, Result } from "../model";
 
 /**
  * 爬虫抽象类，需要实现如下方法：
