@@ -79,7 +79,7 @@ export interface Result {
    *
    * 后期合并更新
    */
-  description?: string;
+  description: string;
 
 }
 

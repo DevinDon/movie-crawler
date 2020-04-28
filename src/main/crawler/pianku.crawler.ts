@@ -3,7 +3,7 @@ import { JSDOM } from 'jsdom';
 import { Artist, Download, Movie } from '../model';
 import { BaseCrawler } from "./base.crawler";
 
-export interface PiankuResult {
+export interface PiankuSearchResult {
   title: string;
   url: string;
   img: string;
@@ -52,9 +52,9 @@ export class PiankuCrawler extends BaseCrawler {
    *
    * `GET https://www.pianku.tv/s/ajax.php?q={{keyword}}`
    */
-  async search(keyword: string): Promise<PiankuResult[]> {
+  async search(keyword: string): Promise<PiankuSearchResult[]> {
     const response = await Axios.get(this.searchLink + '?q=' + encodeURIComponent(keyword))
-    const results: PiankuResult[] = response.data.data;
+    const results: PiankuSearchResult[] = response.data.data;
     return results;
   }
 

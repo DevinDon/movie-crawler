@@ -3,10 +3,22 @@ import { JSDOM } from 'jsdom';
 import { Artist, Movie, Result } from "../model";
 import { BaseCrawler } from "./base.crawler";
 
+export interface DoubanSearchResult {
+  episode: string;
+  img: string;
+  title: string;
+  url: string;
+  type: string;
+  year: string;
+  sub_title: string;
+  id: string;
+}
+
+
 export class DoubanCrawler extends BaseCrawler {
 
   private readonly movieLink = 'https://movie.douban.com/subject/';
-  private readonly searchLink = 'https://search.douban.com/movie/subject_search';
+  private readonly searchLink = 'https://movie.douban.com/j/subject_suggest';
 
   constructor() {
     super(
@@ -107,32 +119,22 @@ export class DoubanCrawler extends BaseCrawler {
 
   }
 
-  async search(keyword: string): Promise<Result[]> {
+  /**
+   * 有接口，那我解析个屁啊。
+   *
+   * `https://movie.douban.com/j/subject_suggest?q={{keyword}}`
+   *
+   * @param keyword 关键词
+   */
+  async search(keyword: string): Promise<DoubanSearchResult[]> {
 
     const response = await Axios.get(this.searchLink, {
-      params: { search_text: keyword },
+      params: { q: keyword },
       headers: this.header
     });
-    const document = new JSDOM(response.data).window.document;
+    const results: DoubanSearchResult[] = response.data;
 
-    const items = [...document.querySelectorAll('#root > div > div:nth-child(2) > div:first-child > div:first-child > div:not(:last-child)')];
-
-    return items.map<Result>(item => {
-      const hasYear = item.querySelector('.title > a')?.textContent?.match(/\((.*)\)/);
-      const hasRating = item.querySelector('.rating_nums')?.textContent;
-      const hasHot = item.querySelector('.rating > .pl')?.textContent?.match(/\((.*)人评价\)/);
-      const hasKeywords = [...item.querySelectorAll('.meta')]
-        .map(v => v.textContent?.split(' / ') || []);
-      return {
-        id: item.querySelector('.title > a')?.getAttribute('href') || '',
-        image: item.querySelector('img')?.getAttribute('src') || '',
-        title: item.querySelector('.title > a')?.textContent || '',
-        year: hasYear ? +hasYear[1] : 0,
-        rating: hasRating ? +hasRating : 0,
-        hot: hasHot ? +hasHot : 0,
-        keywords: hasKeywords ? hasKeywords.flat() : []
-      }
-    });
+    return results;
 
   }
 
