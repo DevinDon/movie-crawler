@@ -41,6 +41,7 @@ export interface ReleaseDate {
  * Movie rating.
  */
 export interface Rating {
+
   /**
    * 评分，满分 10 分
    *
@@ -49,6 +50,7 @@ export interface Rating {
    * ```
    */
   star: number;
+
   /**
    * 评分人数
    *
@@ -57,6 +59,7 @@ export interface Rating {
    * ```
    */
   total: number;
+
   /**
    * 5 星力荐
    *
@@ -65,6 +68,7 @@ export interface Rating {
    * ```
    */
   star5: number;
+
   /**
    * 4 星推荐
    *
@@ -73,6 +77,7 @@ export interface Rating {
    * ```
    */
   star4: number;
+
   /**
    * 3 星还行
    *
@@ -81,6 +86,7 @@ export interface Rating {
    * ```
    */
   star3: number;
+
   /**
    * 2 星较差
    *
@@ -89,6 +95,7 @@ export interface Rating {
    * ```
    */
   star2: number;
+
   /**
    * 1 星很差
    *
@@ -97,6 +104,7 @@ export interface Rating {
    * ```
    */
   star1: number;
+
 }
 
 /**
@@ -108,6 +116,7 @@ export interface Rating {
  * ```
  */
 export interface Download {
+
   /**
    * 标题 Title
    *
@@ -115,6 +124,7 @@ export interface Download {
    * ```
    */
   title: string;
+
   /**
    * 链接 URI
    *
@@ -122,6 +132,7 @@ export interface Download {
    * ```
    */
   uris: string[];
+
   /**
    * 大小 Size
    *
@@ -129,6 +140,7 @@ export interface Download {
    * ```
    */
   size: string;
+
   /**
    * 类型 Type
    *
@@ -136,6 +148,7 @@ export interface Download {
    * ```
    */
   type: string;
+
 }
 
 /**
