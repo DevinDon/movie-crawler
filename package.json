@@ -34,7 +34,7 @@
   "private": false,
   "dependencies": {
     "axios": "0.21.1",
-    "jsdom": "16.4.0"
+    "jsdom": "16.6.0"
   },
   "devDependencies": {
     "@types/jasmine": "3.5.14",
