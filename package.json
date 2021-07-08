@@ -33,7 +33,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "axios": "0.20.0",
+    "axios": "0.21.1",
     "jsdom": "16.4.0"
   },
   "devDependencies": {
